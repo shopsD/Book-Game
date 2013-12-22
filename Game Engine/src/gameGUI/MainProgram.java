@@ -2,6 +2,8 @@ package gameGUI;
 
 import java.io.File;
 
+import org.lwjgl.LWJGLException;
+
 public class MainProgram {
 	//class serves as link to main method and other classes
 	public void startUp(){
@@ -10,8 +12,17 @@ public class MainProgram {
 		SettingsFiles sf = new SettingsFiles(svs);
 		readStartupFiles(sf);
 		//creates main window
-		MainMenuFrame mmf = new MainMenuFrame(sf, svs);
-		mmf.openMainWindow();
+		MainMenuFrame mmf;
+		try {
+			mmf = new MainMenuFrame(sf, svs);
+			mmf.openMainWindow();
+			Thread game = new Thread(mmf);
+			game.start();
+		} catch (LWJGLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void readStartupFiles(SettingsFiles sf){

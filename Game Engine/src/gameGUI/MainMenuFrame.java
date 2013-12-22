@@ -1,17 +1,32 @@
 package gameGUI;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.AWTGLCanvas;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
+
+
+
 import gameController.DataController;
 
-public class MainMenuFrame extends JFrame{
+public class MainMenuFrame extends AWTGLCanvas implements Runnable{
+	
+	//AppGameContainer container = new AppGameContainer(loader, 1024, 768, false);
 	JPanel mainMenuPanel = new JPanel();
 	SettingsFiles sf;
 	MainWindowFrame mwf;
@@ -27,7 +42,7 @@ public class MainMenuFrame extends JFrame{
 	private static final int GRID_ROWS = 6;
 	private static final int GRID_COLUMNS =1;
 	
-	MainMenuFrame(SettingsFiles sf, SettingsVariablesStore svs) {
+	MainMenuFrame(SettingsFiles sf, SettingsVariablesStore svs) throws LWJGLException{
 		//first line of GUI to run
 		this.sf = sf;
 
@@ -53,11 +68,11 @@ public class MainMenuFrame extends JFrame{
 		createButtons("Exit Game");
 		// add main menu panel to this frame
 		mainMenuPanel.setLayout(new GridLayout(GRID_ROWS,GRID_COLUMNS));
-		this.add(mainMenuPanel);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	//	this.add(mainMenuPanel);
+	//	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(FRAME_WIDTH, FRAME_HEIGHT); // hard coded
-		this.setLocationRelativeTo(null); // centers window
-		this.setResizable(false);
+	//	this.setLocationRelativeTo(null); // centers window
+		//this.setResizable(false);
 
 		this.setVisible(true); // shows window
 	}
@@ -147,6 +162,68 @@ public class MainMenuFrame extends JFrame{
 
 	public void destroyRunningThread(){
 		mainWindowFrameThread = null;
+	}
+	
+	
+	protected void initializeOpenGL(){
+		
+		try {
+			initGL();
+
+			Display.setDisplayMode(new DisplayMode(FRAME_WIDTH, FRAME_HEIGHT));
+			//Display.setParent(this);
+			Display.create();
+			GL11.glMatrixMode(GL11.GL_PROJECTION);
+			GL11.glLoadIdentity();
+			GL11.glOrtho(0, FRAME_WIDTH, FRAME_HEIGHT, 0, 1,-1);
+			GL11.glMatrixMode(GL11.GL_MODELVIEW);
+
+		} catch (LWJGLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.setLocation(5, 5);
+		this.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+		this.setVisible(true);
+
+
+	}
+
+
+	private void drawBackground(){
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+		//try {
+		//	backgroundImage = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("BG_Character.png"));
+		//} catch (IOException e) {
+			// TODO Auto-generated catch block
+		//	e.printStackTrace();
+		//}
+	
+	//	backgroundImage.bind();
+		GL11.glBegin(GL11.GL_QUADS);
+			GL11.glTexCoord2f(0,0);
+			GL11.glVertex2f(0,0);
+			GL11.glTexCoord2f(1,0);
+		//	GL11.glVertex2f(100+backgroundImage.getTextureWidth(),100);
+			GL11.glTexCoord2f(1,1);
+		//	GL11.glVertex2f(100+backgroundImage.getTextureWidth(),100+backgroundImage.getTextureHeight());
+			GL11.glTexCoord2f(0,1);
+			//GL11.glVertex2f(100,100+backgroundImage.getTextureHeight());
+		GL11.glEnd();
+	}
+	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		initializeOpenGL();
+		while(!Display.isCloseRequested()){
+
+			drawBackground();
+
+			Display.update();
+			Display.sync(60);
+		}
+		Display.destroy();
 	}
 	
 }
