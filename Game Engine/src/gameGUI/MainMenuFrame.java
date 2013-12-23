@@ -102,30 +102,36 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 		int y = Mouse.getY();
 
 		//Loop to create buttons
-		for(int i =1; i <= 5; i++){
-			buttonYPos += (BUTTON_HEIGHT + 50);
+		//Buttons are created from the bottom to the top
+		for(int i =1; i <= 6; i++){
+			buttonYPos += (BUTTON_HEIGHT + 30);
 			if (x > buttonXPos && x < (buttonXPos + BUTTON_WIDTH) && y < buttonYPos && y > (buttonYPos -  BUTTON_HEIGHT)){
 				menuGraphics.setColor(Color.orange);
 				if(Mouse.isButtonDown(0)){
 					switch(i){
 					case 1:
-						System.out.println("Start Game");
-						break;
+						System.out.println("Quit Game");
+						System.exit(0);
 
 					case 2:
-						System.out.println("Load Game");
+						System.out.println("Credits");
 						break;
-
 					case 3:
+						System.out.println("Help");
+						break;
+						
+					case 4:
 						System.out.println("Settings");
 						break;
 
-					case 4:
-						System.out.println("Credits");
+					case 5:
+						System.out.println("Load Game");
+						
 						break;
 
-					case 5:
-						System.out.println("Quit Game");
+					case 6:
+						System.out.println("Start Game");
+						
 						break;
 
 					default:
@@ -137,7 +143,7 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 			else{
 				menuGraphics.setColor(Color.white);
 			}
-			menuGraphics.fillRoundRect(buttonXPos, buttonYPos, BUTTON_WIDTH, BUTTON_HEIGHT, 5);
+			menuGraphics.fillRoundRect(buttonXPos, FRAME_HEIGHT - buttonYPos, BUTTON_WIDTH, BUTTON_HEIGHT, 5);
 		}
 
 
