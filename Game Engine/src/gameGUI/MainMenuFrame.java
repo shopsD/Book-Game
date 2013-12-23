@@ -20,11 +20,17 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.ShapeFill;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
+
+
+
 
 
 
@@ -51,13 +57,16 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 
 	private static final int FRAME_WIDTH = 640;
 	private static final int FRAME_HEIGHT = 480;	
-	private static final int BUTTON_WIDTH = 120;
-	private static final int BUTTON_HEIGHT = 30;
+	private static final int BUTTON_WIDTH = 200;
+	private static final int BUTTON_HEIGHT = 45;
 	private static int buttonXPos = (int) Math.round(FRAME_WIDTH/2.5);
 	private static int buttonYPos = 0;
 	private static final int GRID_ROWS = 6;
 	private static final int GRID_COLUMNS =1;
+	private static final int BUTTON_SPACING = 20;
 	private Graphics menuGraphics = new Graphics();
+	private static Image button_image = null;
+	private static Image button_selected = null;
 	MainMenuFrame(SettingsFiles sf, SettingsVariablesStore svs) throws LWJGLException{
 		//first line of GUI to run
 		this.sf = sf;
@@ -104,9 +113,9 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 		//Loop to create buttons
 		//Buttons are created from the bottom to the top
 		for(int i =1; i <= 6; i++){
-			buttonYPos += (BUTTON_HEIGHT + 30);
+			buttonYPos += (BUTTON_HEIGHT + BUTTON_SPACING);
 			if (x > buttonXPos && x < (buttonXPos + BUTTON_WIDTH) && y < buttonYPos && y > (buttonYPos -  BUTTON_HEIGHT)){
-				menuGraphics.setColor(Color.orange);
+				button_selected.draw(buttonXPos,(FRAME_HEIGHT - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
 				if(Mouse.isButtonDown(0)){
 					switch(i){
 					case 1:
@@ -119,19 +128,19 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 					case 3:
 						System.out.println("Help");
 						break;
-						
+
 					case 4:
 						System.out.println("Settings");
 						break;
 
 					case 5:
 						System.out.println("Load Game");
-						
+
 						break;
 
 					case 6:
 						System.out.println("Start Game");
-						
+
 						break;
 
 					default:
@@ -141,9 +150,13 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 				}
 			}
 			else{
-				menuGraphics.setColor(Color.white);
+				//Used to start displaying buttons from the bottom of the screen
+				button_image.draw(buttonXPos,(FRAME_HEIGHT - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
 			}
-			menuGraphics.fillRoundRect(buttonXPos, FRAME_HEIGHT - buttonYPos, BUTTON_WIDTH, BUTTON_HEIGHT, 5);
+
+
+
+
 		}
 
 
@@ -229,7 +242,6 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 			initGL();
 
 			Display.setDisplayMode(new DisplayMode(FRAME_WIDTH, FRAME_HEIGHT));
-			//Display.setParent(this);
 			Display.create();
 
 
@@ -256,13 +268,20 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 		this.setLocation(5, 5);
 		this.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		this.setVisible(true);
-
-
+		//Load images for the buttons
+		try {
+			button_selected = new Image("images/main_menu/button_base_selected.png");
+			button_image = new Image("images/main_menu/button_base.png");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
 	private void drawBackground(Texture backgroundImage){
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+		menuGraphics.setBackground(Color.white);
 		createButtons();
 
 
