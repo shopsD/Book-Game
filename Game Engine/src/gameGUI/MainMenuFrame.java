@@ -12,20 +12,32 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.AWTGLCanvas;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.ShapeFill;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
+
+
+
+
+
+
 
 
 
 import gameController.DataController;
 
 public class MainMenuFrame extends AWTGLCanvas implements Runnable{
-	
+
 	//AppGameContainer container = new AppGameContainer(loader, 1024, 768, false);
 	JPanel mainMenuPanel = new JPanel();
 	SettingsFiles sf;
@@ -37,11 +49,15 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 	private Thread mainWindowFrameThread; // main window thread
 	private volatile boolean gamePaused = false; // to be  used for pausing the game
 
-	private static final int FRAME_WIDTH = 300;
-	private static final int FRAME_HEIGHT = 500;		
+	private static final int FRAME_WIDTH = 640;
+	private static final int FRAME_HEIGHT = 480;	
+	private static final int BUTTON_WIDTH = 120;
+	private static final int BUTTON_HEIGHT = 30;
+	private static int buttonXPos = (int) Math.round(FRAME_WIDTH/2.5);
+	private static int buttonYPos = 0;
 	private static final int GRID_ROWS = 6;
 	private static final int GRID_COLUMNS =1;
-	
+	private Graphics menuGraphics = new Graphics();
 	MainMenuFrame(SettingsFiles sf, SettingsVariablesStore svs) throws LWJGLException{
 		//first line of GUI to run
 		this.sf = sf;
@@ -60,35 +76,71 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 	}
 
 	public void openMainWindow(){
-		createButtons("Start Game");
+		/*	createButtons("Start Game");
 		createButtons("Load Game");
 		createButtons("Settings");
 		createButtons("Help");
 		createButtons("Credits");
-		createButtons("Exit Game");
+		createButtons("Exit Game");*/
 		// add main menu panel to this frame
 		mainMenuPanel.setLayout(new GridLayout(GRID_ROWS,GRID_COLUMNS));
-	//	this.add(mainMenuPanel);
-	//	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		//	this.add(mainMenuPanel);
+		//	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(FRAME_WIDTH, FRAME_HEIGHT); // hard coded
-	//	this.setLocationRelativeTo(null); // centers window
+		//	this.setLocationRelativeTo(null); // centers window
 		//this.setResizable(false);
 
 		this.setVisible(true); // shows window
 	}
 
-	private void createButtons (final String buttonName){
-		JButton button = new JButton (buttonName);
-		button.addActionListener(new ActionListener(){
+	/**
+	 * Creates buttons for the main menu
+	 */
+	private void createButtons (){
+		buttonYPos = 0;
+		int x = Mouse.getX();
+		int y = Mouse.getY();
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				checkButtonClicked(buttonName);
+		//Loop to create buttons
+		for(int i =1; i <= 5; i++){
+			buttonYPos += (BUTTON_HEIGHT + 50);
+			if (x > buttonXPos && x < (buttonXPos + BUTTON_WIDTH) && y < buttonYPos && y > (buttonYPos -  BUTTON_HEIGHT)){
+				menuGraphics.setColor(Color.orange);
+				if(Mouse.isButtonDown(0)){
+					switch(i){
+					case 1:
+						System.out.println("Start Game");
+						break;
 
+					case 2:
+						System.out.println("Load Game");
+						break;
+
+					case 3:
+						System.out.println("Settings");
+						break;
+
+					case 4:
+						System.out.println("Credits");
+						break;
+
+					case 5:
+						System.out.println("Quit Game");
+						break;
+
+					default:
+
+
+					}
+				}
 			}
+			else{
+				menuGraphics.setColor(Color.white);
+			}
+			menuGraphics.fillRoundRect(buttonXPos, buttonYPos, BUTTON_WIDTH, BUTTON_HEIGHT, 5);
+		}
 
-		});
-		mainMenuPanel.add(button);
+
 	}
 
 	private void checkButtonClicked(String buttonName){
@@ -163,16 +215,29 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 	public void destroyRunningThread(){
 		mainWindowFrameThread = null;
 	}
-	
-	
+
+
 	protected void initializeOpenGL(){
-		
+
 		try {
 			initGL();
 
 			Display.setDisplayMode(new DisplayMode(FRAME_WIDTH, FRAME_HEIGHT));
 			//Display.setParent(this);
 			Display.create();
+
+
+			GL11.glEnable(GL11.GL_TEXTURE_2D);               
+
+			GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);          
+
+			// enable alpha blending
+
+			GL11.glEnable(GL11.GL_BLEND);
+
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+			GL11.glViewport(0,0,FRAME_WIDTH,FRAME_HEIGHT);
 			GL11.glMatrixMode(GL11.GL_PROJECTION);
 			GL11.glLoadIdentity();
 			GL11.glOrtho(0, FRAME_WIDTH, FRAME_HEIGHT, 0, 1,-1);
@@ -190,40 +255,32 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 	}
 
 
-	private void drawBackground(){
+	private void drawBackground(Texture backgroundImage){
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-		//try {
-		//	backgroundImage = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("BG_Character.png"));
-		//} catch (IOException e) {
-			// TODO Auto-generated catch block
-		//	e.printStackTrace();
-		//}
-	
-	//	backgroundImage.bind();
-		GL11.glBegin(GL11.GL_QUADS);
-			GL11.glTexCoord2f(0,0);
-			GL11.glVertex2f(0,0);
-			GL11.glTexCoord2f(1,0);
-		//	GL11.glVertex2f(100+backgroundImage.getTextureWidth(),100);
-			GL11.glTexCoord2f(1,1);
-		//	GL11.glVertex2f(100+backgroundImage.getTextureWidth(),100+backgroundImage.getTextureHeight());
-			GL11.glTexCoord2f(0,1);
-			//GL11.glVertex2f(100,100+backgroundImage.getTextureHeight());
-		GL11.glEnd();
+		createButtons();
+
+
 	}
-	
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		initializeOpenGL();
+		Texture backgroundImage = null;
+		try {
+			backgroundImage = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("BG_Character.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		while(!Display.isCloseRequested()){
 
-			drawBackground();
+			drawBackground(backgroundImage);
 
 			Display.update();
 			Display.sync(60);
 		}
 		Display.destroy();
 	}
-	
+
 }
