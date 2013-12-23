@@ -1,6 +1,7 @@
 package gameGUI;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,11 +24,14 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ShapeFill;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
+
+
 
 
 
@@ -64,6 +68,10 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 	private static final int GRID_ROWS = 6;
 	private static final int GRID_COLUMNS =1;
 	private static final int BUTTON_SPACING = 20;
+	private static final int BUTTON_TEXT_CENTER_X = 40;
+	private static final int BUTTON_TEXT_CENTER_Y = 5;
+	private static Color textColour = Color.black;
+	private static TrueTypeFont ttf;
 	private Graphics menuGraphics = new Graphics();
 	private static Image button_image = null;
 	private static Image button_selected = null;
@@ -116,6 +124,7 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 			buttonYPos += (BUTTON_HEIGHT + BUTTON_SPACING);
 			if (x > buttonXPos && x < (buttonXPos + BUTTON_WIDTH) && y < buttonYPos && y > (buttonYPos -  BUTTON_HEIGHT)){
 				button_selected.draw(buttonXPos,(FRAME_HEIGHT - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
+				textColour = Color.blue;
 				if(Mouse.isButtonDown(0)){
 					switch(i){
 					case 1:
@@ -152,14 +161,41 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 			else{
 				//Used to start displaying buttons from the bottom of the screen
 				button_image.draw(buttonXPos,(FRAME_HEIGHT - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
+				textColour = Color.black;
 			}
 
+			//Draw text
+			switch(i){
+			case 1:
+				createButtonText(buttonXPos,buttonYPos, "Quit Game");
+				break;
 
+			case 2:
+				createButtonText(buttonXPos,buttonYPos, "Credits");
+				break;
 
+			case 3:
+				createButtonText(buttonXPos,buttonYPos, "Help");
+				break;
+
+			case 4:
+				createButtonText(buttonXPos,buttonYPos, "Settings");
+				break;
+
+			case 5:
+				createButtonText(buttonXPos,buttonYPos, "Load Game");
+				break;
+
+			case 6:
+				createButtonText(buttonXPos,buttonYPos, "Start Game");
+				break;
+			}
 
 		}
+	}
 
-
+	public void createButtonText(int xpos, int ypos, String text){
+		ttf.drawString((xpos + BUTTON_TEXT_CENTER_X), ((FRAME_HEIGHT - ypos ) + BUTTON_TEXT_CENTER_Y), text, textColour);
 	}
 
 	private void checkButtonClicked(String buttonName){
@@ -268,6 +304,11 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 		this.setLocation(5, 5);
 		this.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		this.setVisible(true);
+
+		//Load Fonts
+		ttf = new TrueTypeFont(new Font("Verdana", Font.ITALIC, 20), true);
+
+
 		//Load images for the buttons
 		try {
 			button_selected = new Image("images/main_menu/button_base_selected.png");
