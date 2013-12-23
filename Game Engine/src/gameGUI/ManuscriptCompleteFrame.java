@@ -54,7 +54,7 @@ public class ManuscriptCompleteFrame extends JFrame{
 		this.setVisible(false);
 		//this.setResizable(false);
 		this.setAlwaysOnTop(true);
-		this.setLocationRelativeTo(mmf);
+		//this.setLocationRelativeTo(mmf);
 		this.setTitle("Manuscript Complete");
 
 		createFrameItems();

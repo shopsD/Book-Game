@@ -1,9 +1,7 @@
 package gameGUI;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.GridLayout;
 import java.io.IOException;
 
 import javax.swing.JPanel;
@@ -15,20 +13,20 @@ import org.lwjgl.opengl.AWTGLCanvas;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.openal.SoundStore;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
-
-
-
 
 
 
@@ -38,7 +36,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import gameController.DataController;
 
-public class MainMenuFrame extends AWTGLCanvas implements Runnable{
+public class MainMenuFrame extends BasicGameState /*implements Runnable*/{
 
 	/**
 	 * 
@@ -54,11 +52,10 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 	CreateCharacterFrame ccf;
 	private volatile boolean gamePaused = false; // to be  used for pausing the game
 
-	private static final int FRAME_WIDTH = 1366;
-	private static final int FRAME_HEIGHT = 768;	
 	private static final int BUTTON_WIDTH = 200;
 	private static final int BUTTON_HEIGHT = 45;
-	private static int buttonXPos = (int) Math.round(FRAME_WIDTH/2.5);
+	private static GameContainer gContainer;
+	private static int buttonXPos;
 	private static int buttonYPos = 0;
 
 	private static final int BUTTON_SPACING = 20;
@@ -73,11 +70,11 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 
 	private Audio main_menu_music;
 	private Audio main_menu_button_hover;
-
+	
+	
 	MainMenuFrame(SettingsFiles sf, SettingsVariablesStore svs) throws LWJGLException{
 		//first line of GUI to run
 		this.sf = sf;
-
 
 		//passes info to the settings frame
 		SettingsFrame sfm = new SettingsFrame(sf, svs, this);
@@ -90,7 +87,6 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 		bdp = mwf.getBottomDisplayPanel();
 
 	}
-
 
 	/**
 	 * Creates buttons for the main menu
@@ -106,7 +102,7 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 			buttonYPos += (BUTTON_HEIGHT + BUTTON_SPACING);
 			//Check if mouse is over a button
 			if (x > buttonXPos && x < (buttonXPos + BUTTON_WIDTH) && y < buttonYPos && y > (buttonYPos -  BUTTON_HEIGHT)){
-				button_selected.draw(buttonXPos,(FRAME_HEIGHT - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
+				button_selected.draw(buttonXPos,(gContainer.getHeight() - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
 				textColour = Color.blue;
 				if(!main_menu_button_hover.isPlaying()){
 					main_menu_button_hover.playAsSoundEffect(1.0f, 1.0f, false);
@@ -136,16 +132,12 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 						ccf = new CreateCharacterFrame(this);
 
 						break;
-
-					default:
-
-
 					}
 				}
 			}
 			else{
 				//Used to start displaying buttons from the bottom of the screen
-				button_image.draw(buttonXPos,(FRAME_HEIGHT - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
+				button_image.draw(buttonXPos,(gContainer.getHeight() - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
 				textColour = Color.black;
 			}
 
@@ -179,7 +171,7 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 	}
 
 	public void createButtonText(int xpos, int ypos, String text){
-		ttf.drawString((xpos + BUTTON_TEXT_CENTER_X), ((FRAME_HEIGHT - ypos ) + BUTTON_TEXT_CENTER_Y), text, textColour);
+		ttf.drawString((xpos + BUTTON_TEXT_CENTER_X), ((gContainer.getHeight() - ypos ) + BUTTON_TEXT_CENTER_Y), text, textColour);
 	}
 
 	public void startGameThreads(){
@@ -235,41 +227,10 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 	public void destroyRunningThread(){
 	}
 
-	/**
-	 * Loads the assets and creates the display for rendering
-	 */
-	protected void initializeOpenGL(){
-
-		try {
-			initGL();
-			//create the display
-			Display.setDisplayMode(new DisplayMode(FRAME_WIDTH, FRAME_HEIGHT));
-			Display.setFullscreen(true);
-
-			Display.create();
-			Display.setVSyncEnabled(true);
-
-			GL11.glEnable(GL11.GL_TEXTURE_2D);               
-
-			GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);          
-
-			// enable alpha blending
-
-			GL11.glEnable(GL11.GL_BLEND);
-
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-			GL11.glViewport(0,0,FRAME_WIDTH,FRAME_HEIGHT);
-			GL11.glMatrixMode(GL11.GL_PROJECTION);
-			GL11.glLoadIdentity();
-			GL11.glOrtho(0, FRAME_WIDTH, FRAME_HEIGHT, 0, 1,-1);
-			GL11.glMatrixMode(GL11.GL_MODELVIEW);
-
-		} catch (LWJGLException e) {
-			e.printStackTrace();
-		}
-
-		//Load Fonts
+	@Override
+	public void init(GameContainer gContainer, StateBasedGame arg1)throws SlickException {
+		MainMenuFrame.gContainer = gContainer;
+		buttonXPos = (int) Math.round(gContainer.getWidth()/2.5);
 		ttf = new UnicodeFont(new Font("Verdana", Font.ITALIC, 20));
 		try {
 			Font buttonFont = Font.createFont(Font.TRUETYPE_FONT, ResourceLoader.getResourceAsStream("fonts/GCursive-mouser.ttf"));
@@ -283,7 +244,6 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 			e1.printStackTrace();
 		}
 		
-
 		//Load images for the buttons
 		try {
 			button_selected = new Image("images/main_menu/button_base_selected.png");
@@ -293,43 +253,36 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 			e.printStackTrace();
 		}
 
+		//load music and sounds
 		try {
 			main_menu_music = AudioLoader.getStreamingAudio("OGG", ResourceLoader.getResource("sound/music/main_menu_music.ogg"));
 
 			main_menu_button_hover = AudioLoader.getStreamingAudio("OGG", ResourceLoader.getResource("sound/effects/main_menu_button_hover.ogg"));
 			main_menu_music.playAsMusic(1.0f, 1.0f, true); // start playing background music
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
-
-
-	}
-
-
-	/**
-	 * Draws the background and buttons for the main menu
-	 */
-	private void drawBackground(){
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-		menuGraphics.setBackground(Color.white);
-		createButtons();
+		
 	}
 
 	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		initializeOpenGL();
-		while(!Display.isCloseRequested()){
-			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-			drawBackground();
-			SoundStore.get().poll(0);
-			Display.update();
-			Display.sync(60);
-		}
-		AL.destroy();
-		Display.destroy();
+	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)throws SlickException {
+		menuGraphics.setBackground(Color.white);
+		createButtons();
+		
+	}
 
+	@Override
+	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)throws SlickException {
+		
+		SoundStore.get().poll(0);
+	}
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

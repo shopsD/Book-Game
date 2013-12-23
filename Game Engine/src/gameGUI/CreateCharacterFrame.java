@@ -152,7 +152,7 @@ public class CreateCharacterFrame extends JFrame{
 		this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		this.setVisible(true);
 		this.setTitle("Character Editor");
-		this.setLocationRelativeTo(mmf); // places it center of main menu frame
+		//this.setLocationRelativeTo(mmf); // places it center of main menu frame
 
 
 		this.addWindowListener(new WindowListener(){
@@ -170,7 +170,7 @@ public class CreateCharacterFrame extends JFrame{
 
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				mmf.setVisible(true);
+				//mmf.setVisible(true);
 
 			}
 
@@ -216,7 +216,7 @@ public class CreateCharacterFrame extends JFrame{
 				}
 				else if(e.getKeyCode() == 27){
 					dispose(); //if press escape
-					mmf.setVisible(true);
+					//mmf.setVisible(true);
 				}
 
 			}
@@ -268,7 +268,7 @@ public class CreateCharacterFrame extends JFrame{
 
 		if (bn.equals("cancel")){
 			this.dispose();
-			mmf.setVisible(true);
+		//	mmf.setVisible(true);
 		}
 	}	
 

@@ -55,7 +55,7 @@ public class MainWindowFrame extends JFrame implements Runnable{
 		//closes this window and opens main menu
 		udp.setMenuPaneText("No Production", "", true);
 		this.dispose();
-		mmf.setVisible(true);
+		//mmf.setVisible(true);
 		stopGamePanel();
 	}
 
@@ -70,7 +70,7 @@ public class MainWindowFrame extends JFrame implements Runnable{
 		this.add(bbp, BorderLayout.SOUTH);
 		this.add(mgp, BorderLayout.CENTER);
 		this.setSize(mainDimension);
-		this.setLocationRelativeTo(mmf);
+		//this.setLocationRelativeTo(mmf);
 		this.setResizable(false);
 		this.setVisible(true);
 		//gameWindow.start();
