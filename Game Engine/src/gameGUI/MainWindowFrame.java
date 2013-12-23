@@ -10,6 +10,8 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 
 public class MainWindowFrame extends JFrame implements Runnable{
+
+	private static final long serialVersionUID = 3257305288182239L;
 	//instantiated by MainMenuFrame
 	private UpperDisplayPanel udp;
 	private BottomDisplayPanel bbp;

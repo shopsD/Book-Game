@@ -27,8 +27,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.lwjgl.LWJGLException;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
 
-public class CreateCharacterFrame extends JFrame{
+public class CreateCharacterFrame extends BasicGameState{
 	//player skills
 	private String playerName;
 	private int technique = 5;
@@ -134,106 +139,8 @@ public class CreateCharacterFrame extends JFrame{
 		buttonPanel.add(createButtons("Continue")); // adds two buttons
 		buttonPanel.add(createButtons("Cancel"));
 
-		//design image pane
-		imagePanel.setPreferredSize(new Dimension(IMAGE_PANEL_WIDTH, IMAGE_PANEL_HEIGHT));
-		imagePanel.setBorder(BorderFactory.createLoweredBevelBorder());
-
-		//OpenGL
-		ccg.setImagePanel(imagePanel,IMAGE_PANEL_WIDTH, IMAGE_PANEL_HEIGHT);
-		Thread imagePanelThread = new Thread(ccg);
-		imagePanelThread.start();
-
-		//adds panel locations
-		this.add(imagePanel, BorderLayout.WEST);
-		this.add(dataPanel, BorderLayout.EAST);
-		this.add(buttonPanel, BorderLayout.SOUTH);
-
-		this.setResizable(false);
-		this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-		this.setVisible(true);
-		this.setTitle("Character Editor");
-		//this.setLocationRelativeTo(mmf); // places it center of main menu frame
 
 
-		this.addWindowListener(new WindowListener(){
-
-			@Override
-			public void windowActivated(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void windowClosed(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void windowClosing(WindowEvent arg0) {
-				//mmf.setVisible(true);
-
-			}
-
-			@Override
-			public void windowDeactivated(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void windowDeiconified(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void windowIconified(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void windowOpened(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
-		nameInput.addKeyListener(new KeyListener(){
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == 10){//if press enter
-					dispose();//closes this window
-					playerName = nameInput.getText(); // gets player name
-					technique = Integer.valueOf(techniqueText.getText());
-					aptitude = Integer.valueOf(aptitudeText.getText());
-					reasoning = Integer.valueOf(reasoningText.getText());
-					grammar = Integer.valueOf(grammarText.getText());
-					//mmf.startProgram(); // starts up game loop
-					mmf.startGameThreads();
-				}
-				else if(e.getKeyCode() == 27){
-					dispose(); //if press escape
-					//mmf.setVisible(true);
-				}
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyTyped(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
 	}
 
 	private JButton createButtons (final String buttonName){
@@ -253,7 +160,7 @@ public class CreateCharacterFrame extends JFrame{
 	private void checkButtonClicked(String buttonName){
 		String bn = buttonName.toLowerCase(); //converts to lower case
 		if (bn.equals("continue")){
-			this.dispose();//closes this window
+			
 			playerName = nameInput.getText(); // gets player name
 			technique = Integer.valueOf(techniqueText.getText());
 			aptitude = Integer.valueOf(aptitudeText.getText());
@@ -267,7 +174,7 @@ public class CreateCharacterFrame extends JFrame{
 		}
 
 		if (bn.equals("cancel")){
-			this.dispose();
+			
 		//	mmf.setVisible(true);
 		}
 	}	
@@ -348,8 +255,7 @@ public class CreateCharacterFrame extends JFrame{
 		}
 		remainingPointsArea.setText(""+(levelSkillPoints-(Integer.valueOf(techniqueText.getText()) + Integer.valueOf(aptitudeText.getText())
 				+ Integer.valueOf(reasoningText.getText()) + Integer.valueOf(grammarText.getText()))));
-		this.revalidate();
-		this.repaint();
+
 	}
 
 	public String getPlayerName(){
@@ -374,5 +280,33 @@ public class CreateCharacterFrame extends JFrame{
 
 	public int getPlayerLevel(){
 		return level;
+	}
+
+
+	@Override
+	public void init(GameContainer arg0, StateBasedGame arg1)throws SlickException {
+		
+		
+	}
+
+
+	@Override
+	public void render(GameContainer gContainer, StateBasedGame arg1, Graphics arg2)throws SlickException {
+		//button_image.draw(buttonXPos,(gContainer.getHeight() - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
+		
+	}
+
+
+	@Override
+	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

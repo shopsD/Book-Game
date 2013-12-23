@@ -8,12 +8,6 @@ import javax.swing.JPanel;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.openal.AL;
-import org.lwjgl.opengl.AWTGLCanvas;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -30,18 +24,9 @@ import org.newdawn.slick.util.ResourceLoader;
 
 
 
-
-
-
-
 import gameController.DataController;
 
-public class MainMenuFrame extends BasicGameState /*implements Runnable*/{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -974434834665374671L;
+public class MainMenuFrame extends BasicGameState {
 
 	JPanel mainMenuPanel = new JPanel();
 	SettingsFiles sf;
@@ -51,19 +36,41 @@ public class MainMenuFrame extends BasicGameState /*implements Runnable*/{
 	BottomDisplayPanel bdp;
 	CreateCharacterFrame ccf;
 	private volatile boolean gamePaused = false; // to be  used for pausing the game
-
+	
+	/**
+	 * Width of a button
+	 */
 	private static final int BUTTON_WIDTH = 200;
+	/**
+	 * Height of the buttons
+	 */
 	private static final int BUTTON_HEIGHT = 45;
 	private static GameContainer gContainer;
+	
+	/**
+	 * Position of the button on the X Axis
+	 */
 	private static int buttonXPos;
-	private static int buttonYPos = 0;
-
+	/**
+	 * Position of the button on the Y Axis
+	 */
+	private static int buttonYPos;
+	
+	/**
+	 * Space between buttons
+	 */
 	private static final int BUTTON_SPACING = 20;
+	/**
+	 * Position of text relative to the buttons background image on the x axis
+	 */
 	private static final int BUTTON_TEXT_CENTER_X = 45;
+	/**
+	 * Position of text relative to the buttons background image on the y axis
+	 */
 	private static final int BUTTON_TEXT_CENTER_Y = 5;
 	private static Color textColour = Color.black;
-	private static UnicodeFont ttf;
-	private static final float FONT_SIZE = 25f;
+	private UnicodeFont ttf;
+	
 	private Graphics menuGraphics = new Graphics();
 	private static Image button_image = null;
 	private static Image button_selected = null;
@@ -71,11 +78,11 @@ public class MainMenuFrame extends BasicGameState /*implements Runnable*/{
 	private Audio main_menu_music;
 	private Audio main_menu_button_hover;
 	
-	
-	MainMenuFrame(SettingsFiles sf, SettingsVariablesStore svs) throws LWJGLException{
+	private GameIntroState gis;
+	MainMenuFrame(SettingsFiles sf, SettingsVariablesStore svs, GameIntroState gis) throws LWJGLException{
 		//first line of GUI to run
 		this.sf = sf;
-
+		this.gis = gis;
 		//passes info to the settings frame
 		SettingsFrame sfm = new SettingsFrame(sf, svs, this);
 		sfm.displaySettingsWindow(); // displays the settings window
@@ -227,29 +234,22 @@ public class MainMenuFrame extends BasicGameState /*implements Runnable*/{
 	public void destroyRunningThread(){
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void init(GameContainer gContainer, StateBasedGame arg1)throws SlickException {
 		MainMenuFrame.gContainer = gContainer;
-		buttonXPos = (int) Math.round(gContainer.getWidth()/2.5);
-		ttf = new UnicodeFont(new Font("Verdana", Font.ITALIC, 20));
-		try {
-			Font buttonFont = Font.createFont(Font.TRUETYPE_FONT, ResourceLoader.getResourceAsStream("fonts/GCursive-mouser.ttf"));
-			buttonFont = buttonFont.deriveFont(FONT_SIZE);
-			ttf = new UnicodeFont(buttonFont);
-			ttf.getEffects().add(new ColorEffect(java.awt.Color.white));
-			ttf.addAsciiGlyphs();
-			ttf.loadGlyphs(); 
-		} catch (FontFormatException | IOException | SlickException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ttf = gis.getMenuFont();
+		buttonXPos = (int) Math.round(gContainer.getWidth()/2.5); // centers buttons on the x axis
+		
+		//creates font
+		
 		
 		//Load images for the buttons
 		try {
 			button_selected = new Image("images/main_menu/button_base_selected.png");
 			button_image = new Image("images/main_menu/button_base.png");
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
@@ -281,8 +281,8 @@ public class MainMenuFrame extends BasicGameState /*implements Runnable*/{
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
+
+		return 1;
 	}
 
 }
