@@ -2,40 +2,30 @@ package gameGUI;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SpringLayout;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.AWTGLCanvas;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.ShapeFill;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.geom.Transform;
+import org.newdawn.slick.openal.Audio;
+import org.newdawn.slick.openal.AudioLoader;
+import org.newdawn.slick.openal.SoundStore;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
-
-
-
-
-
-
 
 
 
@@ -48,7 +38,11 @@ import gameController.DataController;
 
 public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 
-	//AppGameContainer container = new AppGameContainer(loader, 1024, 768, false);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -974434834665374671L;
+
 	JPanel mainMenuPanel = new JPanel();
 	SettingsFiles sf;
 	MainWindowFrame mwf;
@@ -56,25 +50,28 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 	DataController dc;
 	BottomDisplayPanel bdp;
 	CreateCharacterFrame ccf;
-	private Thread mainWindowFrameThread; // main window thread
 	private volatile boolean gamePaused = false; // to be  used for pausing the game
 
-	private static final int FRAME_WIDTH = 640;
-	private static final int FRAME_HEIGHT = 480;	
+	private static final int FRAME_WIDTH = 1366;
+	private static final int FRAME_HEIGHT = 768;	
 	private static final int BUTTON_WIDTH = 200;
 	private static final int BUTTON_HEIGHT = 45;
 	private static int buttonXPos = (int) Math.round(FRAME_WIDTH/2.5);
 	private static int buttonYPos = 0;
-	private static final int GRID_ROWS = 6;
-	private static final int GRID_COLUMNS =1;
+
 	private static final int BUTTON_SPACING = 20;
 	private static final int BUTTON_TEXT_CENTER_X = 40;
 	private static final int BUTTON_TEXT_CENTER_Y = 5;
 	private static Color textColour = Color.black;
 	private static TrueTypeFont ttf;
+
 	private Graphics menuGraphics = new Graphics();
 	private static Image button_image = null;
 	private static Image button_selected = null;
+
+	private Audio main_menu_music;
+	private Audio main_menu_button_hover;
+
 	MainMenuFrame(SettingsFiles sf, SettingsVariablesStore svs) throws LWJGLException{
 		//first line of GUI to run
 		this.sf = sf;
@@ -92,23 +89,6 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 
 	}
 
-	public void openMainWindow(){
-		/*	createButtons("Start Game");
-		createButtons("Load Game");
-		createButtons("Settings");
-		createButtons("Help");
-		createButtons("Credits");
-		createButtons("Exit Game");*/
-		// add main menu panel to this frame
-		mainMenuPanel.setLayout(new GridLayout(GRID_ROWS,GRID_COLUMNS));
-		//	this.add(mainMenuPanel);
-		//	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(FRAME_WIDTH, FRAME_HEIGHT); // hard coded
-		//	this.setLocationRelativeTo(null); // centers window
-		//this.setResizable(false);
-
-		this.setVisible(true); // shows window
-	}
 
 	/**
 	 * Creates buttons for the main menu
@@ -122,13 +102,16 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 		//Buttons are created from the bottom to the top
 		for(int i =1; i <= 6; i++){
 			buttonYPos += (BUTTON_HEIGHT + BUTTON_SPACING);
+			//Check if mouse is over a button
 			if (x > buttonXPos && x < (buttonXPos + BUTTON_WIDTH) && y < buttonYPos && y > (buttonYPos -  BUTTON_HEIGHT)){
 				button_selected.draw(buttonXPos,(FRAME_HEIGHT - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
 				textColour = Color.blue;
+				if(!main_menu_button_hover.isPlaying()){
+					main_menu_button_hover.playAsSoundEffect(1.0f, 1.0f, false);
+				}
 				if(Mouse.isButtonDown(0)){
 					switch(i){
 					case 1:
-						System.out.println("Quit Game");
 						System.exit(0);
 
 					case 2:
@@ -148,7 +131,7 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 						break;
 
 					case 6:
-						System.out.println("Start Game");
+						ccf = new CreateCharacterFrame(this);
 
 						break;
 
@@ -190,31 +173,12 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 				createButtonText(buttonXPos,buttonYPos, "Start Game");
 				break;
 			}
-
 		}
 	}
 
 	public void createButtonText(int xpos, int ypos, String text){
 		ttf.drawString((xpos + BUTTON_TEXT_CENTER_X), ((FRAME_HEIGHT - ypos ) + BUTTON_TEXT_CENTER_Y), text, textColour);
 	}
-
-	private void checkButtonClicked(String buttonName){
-		String bn = buttonName.toLowerCase(); //converts to lower case
-		if (bn.equals("start game")){
-			this.setVisible(false);
-			//starts the game
-			ccf = new CreateCharacterFrame(this);
-		}
-
-		if (bn.equals("settings")){
-			sfm.setVisible(true); //shows the settings window
-		}
-
-		if (bn.equals("exit game")){
-			System.exit(0); // quits the program
-
-		}	
-	}	
 
 	public void startGameThreads(){
 		//setting player starting stats
@@ -228,7 +192,6 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 		dc.createProductArrays();
 		dc.startPointControlThread();
 		Thread mainWindowFrameThread = new Thread(mwf);
-		this.mainWindowFrameThread = mainWindowFrameThread;
 		mainWindowFrameThread.start();
 
 		mainWindowFrameOpen();
@@ -268,16 +231,18 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 	}
 
 	public void destroyRunningThread(){
-		mainWindowFrameThread = null;
 	}
 
-
+	/**
+	 * Loads the assets and creates the display for rendering
+	 */
 	protected void initializeOpenGL(){
 
 		try {
 			initGL();
-
+			//create the display
 			Display.setDisplayMode(new DisplayMode(FRAME_WIDTH, FRAME_HEIGHT));
+			Display.setFullscreen(true);
 			Display.create();
 
 
@@ -298,16 +263,19 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
 		} catch (LWJGLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.setLocation(5, 5);
-		this.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
-		this.setVisible(true);
 
 		//Load Fonts
 		ttf = new TrueTypeFont(new Font("Verdana", Font.ITALIC, 20), true);
-
+		try {
+			Font buttonFont = Font.createFont(Font.TRUETYPE_FONT, ResourceLoader.getResourceAsStream("fonts/GCursive-mouser.ttf"));
+			buttonFont.deriveFont(20);
+			ttf = new TrueTypeFont(buttonFont, false);
+		} catch (FontFormatException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		//Load images for the buttons
 		try {
@@ -317,36 +285,44 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		try {
+			main_menu_music = AudioLoader.getStreamingAudio("OGG", ResourceLoader.getResource("sound/music/main_menu_music.ogg"));
+
+			main_menu_button_hover = AudioLoader.getStreamingAudio("OGG", ResourceLoader.getResource("sound/effects/main_menu_button_hover.ogg"));
+			main_menu_music.playAsMusic(1.0f, 1.0f, true); // start playing background music
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
 	}
 
 
-	private void drawBackground(Texture backgroundImage){
+	/**
+	 * Draws the background and buttons for the main menu
+	 */
+	private void drawBackground(){
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		menuGraphics.setBackground(Color.white);
 		createButtons();
-
-
 	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		initializeOpenGL();
-		Texture backgroundImage = null;
-		try {
-			backgroundImage = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("BG_Character.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		while(!Display.isCloseRequested()){
 
-			drawBackground(backgroundImage);
-
+			drawBackground();
+			SoundStore.get().poll(0);
 			Display.update();
 			Display.sync(60);
 		}
+		AL.destroy();
 		Display.destroy();
+
 	}
 
 }

@@ -15,7 +15,6 @@ public class MainProgram {
 		MainMenuFrame mmf;
 		try {
 			mmf = new MainMenuFrame(sf, svs);
-			mmf.openMainWindow();
 			Thread game = new Thread(mmf);
 			game.start();
 		} catch (LWJGLException e) {
