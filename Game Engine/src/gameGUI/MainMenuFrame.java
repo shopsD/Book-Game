@@ -20,12 +20,14 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.openal.SoundStore;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
+
+
 
 
 
@@ -60,11 +62,11 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 	private static int buttonYPos = 0;
 
 	private static final int BUTTON_SPACING = 20;
-	private static final int BUTTON_TEXT_CENTER_X = 40;
+	private static final int BUTTON_TEXT_CENTER_X = 45;
 	private static final int BUTTON_TEXT_CENTER_Y = 5;
 	private static Color textColour = Color.black;
-	private static TrueTypeFont ttf;
-
+	private static UnicodeFont ttf;
+	private static final float FONT_SIZE = 25f;
 	private Graphics menuGraphics = new Graphics();
 	private static Image button_image = null;
 	private static Image button_selected = null;
@@ -243,8 +245,9 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 			//create the display
 			Display.setDisplayMode(new DisplayMode(FRAME_WIDTH, FRAME_HEIGHT));
 			Display.setFullscreen(true);
-			Display.create();
 
+			Display.create();
+			Display.setVSyncEnabled(true);
 
 			GL11.glEnable(GL11.GL_TEXTURE_2D);               
 
@@ -267,15 +270,19 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 		}
 
 		//Load Fonts
-		ttf = new TrueTypeFont(new Font("Verdana", Font.ITALIC, 20), true);
+		ttf = new UnicodeFont(new Font("Verdana", Font.ITALIC, 20));
 		try {
 			Font buttonFont = Font.createFont(Font.TRUETYPE_FONT, ResourceLoader.getResourceAsStream("fonts/GCursive-mouser.ttf"));
-			buttonFont.deriveFont(20);
-			ttf = new TrueTypeFont(buttonFont, false);
-		} catch (FontFormatException | IOException e1) {
+			buttonFont = buttonFont.deriveFont(FONT_SIZE);
+			ttf = new UnicodeFont(buttonFont);
+			ttf.getEffects().add(new ColorEffect(java.awt.Color.white));
+			ttf.addAsciiGlyphs();
+			ttf.loadGlyphs(); 
+		} catch (FontFormatException | IOException | SlickException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
 
 		//Load images for the buttons
 		try {
@@ -314,7 +321,7 @@ public class MainMenuFrame extends AWTGLCanvas implements Runnable{
 		// TODO Auto-generated method stub
 		initializeOpenGL();
 		while(!Display.isCloseRequested()){
-
+			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 			drawBackground();
 			SoundStore.get().poll(0);
 			Display.update();
