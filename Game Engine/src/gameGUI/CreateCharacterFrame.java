@@ -168,7 +168,7 @@ public class CreateCharacterFrame extends BasicGameState{
 			grammar = Integer.valueOf(grammarText.getText());
 			//	mmf.startProgram(); // starts up game loop
 
-			mmf.destroyRunningThread();
+
 			mmf.startGameThreads();
 
 		}
@@ -306,7 +306,7 @@ public class CreateCharacterFrame extends BasicGameState{
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
+
+		return 2;
 	}
 }

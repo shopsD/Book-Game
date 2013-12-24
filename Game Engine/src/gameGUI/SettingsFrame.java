@@ -1,17 +1,21 @@
 package gameGUI;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-public class SettingsFrame extends JFrame{
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
+
+import de.matthiasmann.TWLSlick.BasicTWLGameState;
+
+public class SettingsFrame extends BasicTWLGameState{
 	JPanel settingsPanel = new JPanel();
 	SettingsFiles sf;
 	SettingsVariablesStore svs;
@@ -25,40 +29,18 @@ public class SettingsFrame extends JFrame{
 		this.sf = sf;
 		this.mmf = mmf;
 		
-		this.setTitle("Settings");
-		this.setResizable(false);
+		//this.setTitle("Settings");
+	//	this.setResizable(false);
 		//detect window movement
-		this.addComponentListener(new ComponentListener (){
 
-			@Override
-			public void componentHidden(ComponentEvent arg0) {
-				closeWindow();
-			}
-
-			@Override
-			public void componentMoved(ComponentEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void componentResized(ComponentEvent arg0) {
-				// TODO Auto-generated method stub	
-			}
-
-			@Override
-			public void componentShown(ComponentEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-		});
 	}
 
 	public void displaySettingsWindow(){
 		addContent();
-		this.setSize(svs.getSettingsDimension());
-		this.setVisible(false);
+		//this.setSize(svs.getSettingsDimension());
+		//this.setVisible(false);
 		//set window location to center of screen
-		this.setLocationRelativeTo(null);
+		//this.setLocationRelativeTo(null);
 	}
 
 	private void closeWindow(){
@@ -67,10 +49,10 @@ public class SettingsFrame extends JFrame{
 		}else{
 
 			//get window size
-			Dimension settingsFrameSize = this.getBounds().getSize();
+			//Dimension settingsFrameSize = this.getBounds().getSize();
 			//assign new variables
-			int height = settingsFrameSize.height;
-			int width = settingsFrameSize.width;
+			//int height = settingsFrameSize.height;
+			//int width = settingsFrameSize.width;
 
 
 			//assign old variables
@@ -95,7 +77,7 @@ public class SettingsFrame extends JFrame{
 
 		createButton("Save");//creates buttons
 		createButton("Close");
-		this.add(settingsPanel);
+		//this.add(settingsPanel);
 	}
 
 	private void createDropList(final String dropListName, final String dropListItems){
@@ -168,12 +150,37 @@ public class SettingsFrame extends JFrame{
 		if(bn.equals("save")){
 			saveData(); // write to ini files
 			closeWindow(); // write to ini files
-			this.setVisible(false); // hide window
+			//this.setVisible(false); // hide window
 		}
 
 		else if (bn.equals("close")){
 			closeWindow(); // write to ini file
-			this.setVisible(false); // hide window
+			//this.setVisible(false); // hide window
 		}
+	}
+
+	@Override
+	public void init(GameContainer gCont, StateBasedGame sGame)throws SlickException {
+		
+	}
+
+	@Override
+	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
+			throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
+			throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return 3;
 	}
 }

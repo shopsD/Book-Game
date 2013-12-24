@@ -1,7 +1,5 @@
 package gameGUI;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
 import java.io.IOException;
 
 import javax.swing.JPanel;
@@ -14,19 +12,19 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.openal.SoundStore;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
 
 
 
+
+import de.matthiasmann.TWLSlick.BasicTWLGameState;
 import gameController.DataController;
 
-public class MainMenuFrame extends BasicGameState {
+public class MainMenuFrame extends BasicTWLGameState {
 
 	JPanel mainMenuPanel = new JPanel();
 	SettingsFiles sf;
@@ -231,10 +229,6 @@ public class MainMenuFrame extends BasicGameState {
 		return mwf;
 	}
 
-	public void destroyRunningThread(){
-	}
-
-	@SuppressWarnings("unchecked")
 	@Override
 	public void init(GameContainer gContainer, StateBasedGame arg1)throws SlickException {
 		MainMenuFrame.gContainer = gContainer;
@@ -246,8 +240,8 @@ public class MainMenuFrame extends BasicGameState {
 		
 		//Load images for the buttons
 		try {
-			button_selected = new Image("images/main_menu/button_base_selected.png");
-			button_image = new Image("images/main_menu/button_base.png");
+			button_selected = new Image("res/images/main_menu/button_base_selected.png");
+			button_image = new Image("res/images/main_menu/button_base.png");
 		} catch (SlickException e) {
 			
 			e.printStackTrace();
@@ -255,9 +249,9 @@ public class MainMenuFrame extends BasicGameState {
 
 		//load music and sounds
 		try {
-			main_menu_music = AudioLoader.getStreamingAudio("OGG", ResourceLoader.getResource("sound/music/main_menu_music.ogg"));
+			main_menu_music = AudioLoader.getStreamingAudio("OGG", ResourceLoader.getResource("res/sound/music/main_menu_music.ogg"));
 
-			main_menu_button_hover = AudioLoader.getStreamingAudio("OGG", ResourceLoader.getResource("sound/effects/main_menu_button_hover.ogg"));
+			main_menu_button_hover = AudioLoader.getStreamingAudio("OGG", ResourceLoader.getResource("res/sound/effects/main_menu_button_hover.ogg"));
 			main_menu_music.playAsMusic(1.0f, 1.0f, true); // start playing background music
 		} catch (IOException e) {
 		

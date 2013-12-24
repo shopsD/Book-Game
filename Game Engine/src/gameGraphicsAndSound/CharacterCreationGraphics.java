@@ -85,13 +85,13 @@ public class CharacterCreationGraphics extends AWTGLCanvas implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		initializeOpenGL();
-		while(ccf.isVisible()){
+		//while(ccf.isVisible()){
 
 			drawBackground();
 
 			Display.update();
 			Display.sync(60);
-		}
+		//}
 		Display.destroy();
 	}
 

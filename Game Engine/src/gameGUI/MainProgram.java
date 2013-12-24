@@ -1,13 +1,20 @@
 package gameGUI;
 
 import java.io.File;
+
+
+
+
+
+import java.net.URL;
+
 import org.lwjgl.LWJGLException;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
+import de.matthiasmann.TWLSlick.TWLStateBasedGame;
 
-public class MainProgram extends StateBasedGame{
+public class MainProgram extends TWLStateBasedGame{
 	
 	private static SettingsVariablesStore svs = new SettingsVariablesStore();
 	private static SettingsFiles sf = new SettingsFiles(svs);
@@ -39,7 +46,7 @@ public class MainProgram extends StateBasedGame{
 		loadGameSettings();
 		try {
 			AppGameContainer container = new AppGameContainer(new MainProgram("Writer Game"));
-			container.setDisplayMode(1366,768,false);
+			container.setDisplayMode(container.getScreenWidth(),container.getScreenHeight(),false);
 			container.setVSync(true);
 			container.setFullscreen(true);
 			container.start();	
@@ -61,5 +68,9 @@ public class MainProgram extends StateBasedGame{
 			e.printStackTrace();
 		}
 
+	}
+	@Override
+	protected URL getThemeURL() {
+		return MainProgram.class.getResource("/res/themes/Menu_Theme.xml");
 	}
 }

@@ -1,6 +1,5 @@
 package gameGUI;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
@@ -10,13 +9,14 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.util.ResourceLoader;
 
-public class GameIntroState extends BasicGameState{
+import de.matthiasmann.TWLSlick.BasicTWLGameState;
+
+public class GameIntroState extends BasicTWLGameState{
 	private UnicodeFont ttf;
 	private static float FONT_SIZE = 25f;
 
@@ -29,7 +29,7 @@ public class GameIntroState extends BasicGameState{
 		ttf = new UnicodeFont(new Font("Verdana", Font.ITALIC, 20));// load default font
 		try {
 			// creates a new custom font
-			Font buttonFont = Font.createFont(Font.TRUETYPE_FONT, ResourceLoader.getResourceAsStream("fonts/GCursive-mouser.ttf"));
+			Font buttonFont = Font.createFont(Font.TRUETYPE_FONT, ResourceLoader.getResourceAsStream("res/fonts/GCursive-mouser.ttf"));
 			buttonFont = buttonFont.deriveFont(FONT_SIZE);
 			ttf = new UnicodeFont(buttonFont);
 

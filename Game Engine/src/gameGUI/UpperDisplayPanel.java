@@ -125,7 +125,7 @@ public class UpperDisplayPanel extends JPanel{
 
 	private void getSelectedEditOption(String bl){
 		if (bl.equals("settings")){
-			sfm.setVisible(true); // shows settings window
+			//sfm.setVisible(true); // shows settings window
 		}
 	}
 
