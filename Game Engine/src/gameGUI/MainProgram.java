@@ -1,11 +1,5 @@
 package gameGUI;
 
-import java.io.File;
-
-
-
-
-
 import java.net.URL;
 
 import org.lwjgl.LWJGLException;
