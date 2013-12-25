@@ -71,6 +71,6 @@ public class MainProgram extends TWLStateBasedGame{
 	
 	@Override
 	protected URL getThemeURL() {
-		return MainProgram.class.getResource("/res/themes/Menu_Theme.xml");
+		return MainProgram.class.getResource("/res/config/menu_theme.xml");
 	}
 }
