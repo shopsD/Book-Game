@@ -235,9 +235,7 @@ public class MainMenuFrame extends BasicTWLGameState {
 		ttf = gis.getMenuFont();
 		buttonXPos = (int) Math.round(gContainer.getWidth()/2.5); // centers buttons on the x axis
 		
-		//creates font
-		
-		
+				
 		//Load images for the buttons
 		try {
 			button_selected = new Image("res/images/main_menu/button_base_selected.png");

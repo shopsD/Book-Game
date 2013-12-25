@@ -44,25 +44,6 @@ public class SettingsFrame extends BasicTWLGameState{
 	}
 
 	private void closeWindow(){
-		if(changed == true){
-			//OPEN CONFIRM DIALOGUE
-		}else{
-
-			//get window size
-			//Dimension settingsFrameSize = this.getBounds().getSize();
-			//assign new variables
-			//int height = settingsFrameSize.height;
-			//int width = settingsFrameSize.width;
-
-
-			//assign old variables
-			int oldHeight = svs.getSettingsDimension().height;
-			int oldWidth = svs.getSettingsDimension().width;
-			//write to file
-			sf.writeToFile("setconfig.ini", "Size: " + height + " " + width, "Size: " + oldHeight + " " + oldWidth);
-			//update new values
-			svs.setSettingsDimension(width, height);
-		}
 	}
 
 	private void addContent(){
@@ -113,13 +94,7 @@ public class SettingsFrame extends BasicTWLGameState{
 		}
 	}
 
-	private void saveData(){
-		//overwrites old settings with new
-		int oldHeight = svs.getMainDimension().height;
-		int oldWidth = svs.getMainDimension().width;
-		sf.writeToFile("config.ini", "Size: " + height + " " + width, "Size: " + oldHeight + " " + oldWidth);
-		svs.setMainDimension(width, height);
-	}
+
 
 	private void createTextArea(JTextArea textArea){
 		//sets text area parameters
@@ -148,7 +123,7 @@ public class SettingsFrame extends BasicTWLGameState{
 		inGameWindow = mmf.getMainWindowFrameOpened();
 		String bn = buttonName.toLowerCase(); // converts to lower case
 		if(bn.equals("save")){
-			saveData(); // write to ini files
+			//saveData(); // write to ini files
 			closeWindow(); // write to ini files
 			//this.setVisible(false); // hide window
 		}

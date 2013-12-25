@@ -1,32 +1,75 @@
 package gameGUI;
 
-import java.awt.Dimension;
-
 public class SettingsVariablesStore {
 	//class is for storing variables
+	private static int resWidth;
+	private static int resHeight;
 	
-	private volatile Dimension mainDimension; // main window size
-	private volatile Dimension settingsDimension; // settings window size
+	private static boolean fullScreen;
+	private static boolean vSync;
 	
-	
-	public void setMainDimension(int width, int height){
-		Dimension mainDimension = new Dimension();
-		mainDimension.setSize(width, height); // sets main window size
-		this.mainDimension = mainDimension;
+	private static float soundVolume;
+	private static float musicVolume;
+	private static boolean soundOn;
+	private static boolean musicOn;
+	public void setResolution(int resWidth, int resHeight){
+		SettingsVariablesStore.resWidth = resWidth;
+		SettingsVariablesStore.resHeight = resHeight;
 	}
 	
-	public void setSettingsDimension(int width, int height){
-		Dimension settingsDimension = new Dimension();
-		settingsDimension.setSize(width, height); // sets settings window size
-		this.settingsDimension = settingsDimension;
-		
+	public void setSoundVolume(float soundVolume){
+		SettingsVariablesStore.soundVolume = soundVolume;
 	}
 	
-	public Dimension getSettingsDimension(){
-		return settingsDimension;
+	public void setMusicVolume(float musicVolume){
+		SettingsVariablesStore.musicVolume = musicVolume;
 	}
 	
-	public Dimension getMainDimension(){
-		return mainDimension;
+	public void setVsync(boolean vSync){
+		SettingsVariablesStore.vSync = vSync;
+	}
+	
+	public void setFullScreen(boolean fullScreen){
+		SettingsVariablesStore.fullScreen = fullScreen;
+	}
+	
+	public void setSoundOn(boolean soundOn){
+		SettingsVariablesStore.soundOn = soundOn;
+	}
+	
+	public void setMusicOn(boolean musicOn){
+		SettingsVariablesStore.musicOn = musicOn;
+	}
+	
+	public int getResWidth() {
+		return resWidth;
+	}
+
+	public int getResHeight() {
+		return resHeight;
+	}
+
+	public float getSoundVolume(){
+		return soundVolume;
+	}
+	
+	public float getMusicVolume(){
+		return musicVolume;
+	}
+	
+	public boolean getFullScreen() {
+		return fullScreen;
+	}
+
+	public boolean getVsync() {
+		return vSync;
+	}
+	
+	public boolean getMusicOn(){
+		return musicOn;
+	}
+	
+	public boolean getSoundOn(){
+		return soundOn;
 	}
 }

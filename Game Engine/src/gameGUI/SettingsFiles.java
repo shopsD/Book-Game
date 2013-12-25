@@ -1,93 +1,150 @@
 package gameGUI;
 
-import java.io.BufferedWriter;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Scanner;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 
 public class SettingsFiles {
-	private File file;
-	//////list of variables
-	//Read in resolutions
-	private int windowHeight;
-	private int windowWidth;
+	private static GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+	
+	private static File setFile;
+	private static DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	private static Document doc;
+	private static Transformer tr = null; 
+
+	private static Element childElem;
+	private static Element rootElem;
+	private static Element parentElem;
+
+
 	//Settings Variables Store
 	private SettingsVariablesStore svs;
+	private SettingFileParser sfp;
 
-	public SettingsFiles(SettingsVariablesStore svs) {
+	public SettingsFiles(SettingsVariablesStore svs, SettingFileParser sfp) {
 		this.svs = svs;
+		this.sfp = sfp;
+		initializeWriters();
 	}
 
-	public void readSettingsFile(File file){
-		this.file = file;
+	/**
+	 * Loads document readers
+	 * @return True if writers loaded successfully
+	 */
+	private boolean initializeWriters(){
 		try {
-			Scanner scanner = new Scanner(file);
-			while (scanner.hasNextLine()==true){
-				//read lines of file
-				readData(scanner);
-			}
-		} catch (FileNotFoundException e) {
-			createSettingsFile(file.getName());
-			readSettingsFile(this.file);
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			doc = db.newDocument();
+		} catch (ParserConfigurationException e) {
+
+			e.printStackTrace();
 		}
+		return (doc !=null);
 	}
+	
+	/**
+	 * Creates a new XML Element
+	 * @param elementName The name of the element
+	 * @param data The data contained in the element
+	 */
+	private void addToXML(Element parElement, String elementName, String data){
+		childElem = doc.createElement(elementName);
+		childElem.appendChild(doc.createTextNode(data));
+		parElement.appendChild(childElem);
 
-	public File createSettingsFile(String fileNameUpper){
+	}
+	
+	/**
+	 * Attempts to read a file. If the file does not exist a default file is created.
+	 * If the file does exist it is parsed
+	 * @param fileName The name of the file. Path directory may be included
+	 */
+	public void readSettingsFile(String fileName){
 		//converts file name to lowercase
-		String fileName = fileNameUpper.toLowerCase();
-		//creates new file
-		File setFile = new File (fileName);
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(setFile, true));
-			//Determines where to write the default values
-			if (fileName.equals("config.ini")){
-				//writes default value (width then size)
-				bw.write("Size: 480 640\n");
+		fileName = fileName.toLowerCase();
+		if(setFile == null){
+			setFile = new File (fileName);
+			sfp.setFileName(fileName);
+		}
+		//check if file exists
+		try {//If file doesn't exist create it
+			if(setFile.createNewFile()){
+				
+				createSettingsFile();
+				readSettingsFile(fileName);
 			}
-			else if(fileName.equals("setconfig.ini")){
-				//writes default value
-				bw.write("Size: 200 340\n");
+			
+			else{
+				sfp.parseSettings();
 			}
-			bw.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return setFile;
 	}
+	
+	public void createSettingsFile(){
 
-	private void readData(Scanner sc){
-		//Reads the line
-		String line = sc.nextLine();
-		//uses whitespace as delimiter
-		String[] resolution= line.split("\\s+");
-		String height = resolution[1];
-		String width = resolution[2];
+		rootElem = doc.createElement("SETTINGS");
+		rootElem.setAttribute("VERSION", "0.7.0.0");
+		
+		parentElem = doc.createElement("DISPLAY");
+		childElem = doc.createElement("RESOLUTION");
+		//Sets default resolution to be screen size
+		childElem.setAttribute("WIDTH", String.valueOf(gd.getDisplayMode().getWidth()));
+		childElem.setAttribute("HEIGHT", String.valueOf(gd.getDisplayMode().getHeight()));
+		childElem.appendChild(doc.createTextNode("TRUE"));
+		parentElem.appendChild(childElem);
 
-		//converts strings to ints
-		windowWidth = Integer.parseInt(width);
-		windowHeight = Integer.parseInt(height);
-		setConfigFile(windowHeight, windowWidth);
-	}
+		addToXML(parentElem, "VSYNC", "FALSE");
+		rootElem.appendChild(parentElem);
+		//Sound settings
+		parentElem = doc.createElement("SOUND");
+			childElem = doc.createElement("SOUND_ON");
+				childElem.setAttribute("VOLUME_SOUND", "50");
+				childElem.appendChild(doc.createTextNode("TRUE"));
+			parentElem.appendChild(childElem);
+		//Music Settings
+			childElem = doc.createElement("MUSIC_ON");
+				childElem.setAttribute("VOLUME_MUSIC", "50");
+				childElem.appendChild(doc.createTextNode("TRUE"));
+			parentElem.appendChild(childElem);
+		
+		rootElem.appendChild(parentElem);
+		
+		//write to file
+		doc.appendChild(rootElem);
+		try {
+			tr = TransformerFactory.newInstance().newTransformer();
 
-	private void setConfigFile(int height, int width){
-		//determine which configuration file to write to
-		String fileNameUpper = file.getName();
-		String fileName = fileNameUpper.toLowerCase();
+			tr.setOutputProperty(OutputKeys.INDENT, "yes");
+			tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
-		if(fileName.equals("config.ini")){
-			svs.setMainDimension(width, height);
-		}
-
-		else if (fileName.equals("setconfig.ini")){
-			svs.setSettingsDimension(width, height);
+			// send DOM to file
+			tr.transform(new DOMSource(doc),  new StreamResult(setFile));
+		} catch (TransformerFactoryConfigurationError | TransformerException e) {
+			e.printStackTrace();
 		}
 	}
 

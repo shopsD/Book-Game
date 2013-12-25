@@ -66,7 +66,7 @@ public class MainWindowFrame extends JFrame implements Runnable{
 	}
 
 	public void createGUI(){
-		mainDimension = svs.getMainDimension();
+		//mainDimension = svs.getMainDimension();
 		this.setSize(mainDimension);
 		this.add(udp, BorderLayout.NORTH);
 		this.add(bbp, BorderLayout.SOUTH);
@@ -134,7 +134,7 @@ public class MainWindowFrame extends JFrame implements Runnable{
 		//while (mmf.getProgramRunning()){
 		while(mainWindowFrameOpen){
 			//for resizing window while game is running
-			mainDimension = svs.getMainDimension();
+			//mainDimension = svs.getMainDimension();
 			this.setSize(mainDimension);//resizes window
 			this.setLocationRelativeTo(null);
 			if (mainWindowFrameOpen == false){

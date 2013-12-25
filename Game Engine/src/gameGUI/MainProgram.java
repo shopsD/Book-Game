@@ -17,7 +17,8 @@ import de.matthiasmann.TWLSlick.TWLStateBasedGame;
 public class MainProgram extends TWLStateBasedGame{
 	
 	private static SettingsVariablesStore svs = new SettingsVariablesStore();
-	private static SettingsFiles sf = new SettingsFiles(svs);
+	private static SettingFileParser sfp = new SettingFileParser(svs);
+	private static SettingsFiles sf = new SettingsFiles(svs, sfp);
 	
 	public MainProgram(String title) {
 		super(title);
@@ -25,13 +26,10 @@ public class MainProgram extends TWLStateBasedGame{
 	/**
 	 * Reads the files with the game settings
 	 */
-	public static void loadGameSettings(){
+	private static void loadGameSettings(){
 		//Creates files to be read
-		File mainWindowSettings = new File("config.ini");
-		File settingsWindowSettings = new File("setconfig.ini");
 		//reads the configuration files
-		sf.readSettingsFile(mainWindowSettings);
-		sf.readSettingsFile(settingsWindowSettings);
+		sf.readSettingsFile("bin/res/config/config.xml");
 		
 	}
 	
@@ -42,13 +40,18 @@ public class MainProgram extends TWLStateBasedGame{
 		////-----Need to add frame to hire and fire employees.
 		////-----Need to add unlock system
 		////-----Need to rework scoring system
-		////-----Need to add Graphics to GUI (OpenGL???)
+		////-----Need to add Graphics to GUI
 		loadGameSettings();
 		try {
 			AppGameContainer container = new AppGameContainer(new MainProgram("Writer Game"));
-			container.setDisplayMode(container.getScreenWidth(),container.getScreenHeight(),false);
-			container.setVSync(true);
-			container.setFullscreen(true);
+			//Load display settings
+			container.setDisplayMode(svs.getResWidth(),svs.getResHeight(),svs.getFullScreen());
+			container.setVSync(svs.getVsync());
+			//Load Audio settings
+			container.setMusicOn(svs.getMusicOn());
+			container.setSoundOn(svs.getSoundOn());
+			container.setMusicVolume(svs.getMusicVolume());
+			container.setSoundVolume(svs.getSoundVolume());
 			container.start();	
 
 		} catch (SlickException e) {
@@ -58,8 +61,11 @@ public class MainProgram extends TWLStateBasedGame{
 
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
-	
-		//creates main menu
+		//Statees
+		//0 - Start Screen
+		//1 - Main Menu
+		//2 - Create Character Screen
+		//3 - Settings Screen
 		try {
 			GameIntroState gis = new GameIntroState();
 			addState(gis);
@@ -67,8 +73,8 @@ public class MainProgram extends TWLStateBasedGame{
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
-
 	}
+	
 	@Override
 	protected URL getThemeURL() {
 		return MainProgram.class.getResource("/res/themes/Menu_Theme.xml");

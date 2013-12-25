@@ -6,11 +6,8 @@ import java.io.FileNotFoundException;
 import org.junit.Test;
 
 public class TestFiles {
-	SettingsFiles sf = new SettingsFiles(null);
-	@Test
-	public void testFileCreated() {
-		assertNotNull(sf.createSettingsFile("config.ini"));
-	}
+	SettingsFiles sf = new SettingsFiles(null, null);
+
 	@Test
 	public void testWriteToFile() throws FileNotFoundException{
 		assertTrue(sf.writeToFile("test file.txt", "new", "old"));
