@@ -15,6 +15,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
@@ -23,6 +24,8 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 
 public class SettingsFiles {
@@ -31,13 +34,14 @@ public class SettingsFiles {
 	private static File setFile;
 	private static DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 	private static Document doc;
+	private static DocumentBuilder db; 
 	private static Transformer tr = null; 
 
 	private static Element childElem;
 	private static Element rootElem;
 	private static Element parentElem;
 
-
+	private static Node rootNode;
 	//Settings Variables Store
 	private SettingsVariablesStore svs;
 	private SettingFileParser sfp;
@@ -54,9 +58,10 @@ public class SettingsFiles {
 	 */
 	private boolean initializeWriters(){
 		try {
-			DocumentBuilder db = dbf.newDocumentBuilder();
+			db = dbf.newDocumentBuilder();
 			doc = db.newDocument();
-		} catch (ParserConfigurationException e) {
+			tr = TransformerFactory.newInstance().newTransformer();
+		} catch (ParserConfigurationException | TransformerConfigurationException | TransformerFactoryConfigurationError e) {
 
 			e.printStackTrace();
 		}
@@ -135,7 +140,7 @@ public class SettingsFiles {
 		//write to file
 		doc.appendChild(rootElem);
 		try {
-			tr = TransformerFactory.newInstance().newTransformer();
+			
 
 			tr.setOutputProperty(OutputKeys.INDENT, "yes");
 			tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
@@ -149,6 +154,13 @@ public class SettingsFiles {
 
 	public boolean writeToFile(String fileName, String newInputData, String oldInputData){
 		//overwrites specific data with new data
+		try {
+			doc = db.parse(setFile);
+		} catch (SAXException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		rootNode = doc.getFirstChild();
 		try {
 			Path path = Paths.get(fileName);
 			Charset charset = StandardCharsets.UTF_8;

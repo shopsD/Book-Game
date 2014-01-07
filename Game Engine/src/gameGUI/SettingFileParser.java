@@ -19,14 +19,19 @@ public class SettingFileParser extends DefaultHandler {
 	private static String elementValue;
 	SettingFileParser(SettingsVariablesStore svs){
 		this.svs = svs;
+		try {
+			parser = pFactory.newSAXParser();
+		} catch (ParserConfigurationException | SAXException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void parseSettings(){
 		 
 	        try {
-	           parser = pFactory.newSAXParser();
+	          
 	           parser.parse(fileName, this);
-	        } catch ( IOException | SAXException | ParserConfigurationException e) {
+	        } catch ( IOException | SAXException e) {
 	           e.printStackTrace();
 	        } 
 
