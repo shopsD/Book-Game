@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -15,16 +14,23 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.openal.SoundStore;
-import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
 
 
 
 
-import de.matthiasmann.TWLSlick.BasicTWLGameState;
-import gameController.DataController;
 
-public class MainMenuFrame extends BasicTWLGameState {
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
+import gameController.DataController;
+import gameEntry.BookGame;
+
+public class MainMenuFrame implements Screen {
 
 	JPanel mainMenuPanel = new JPanel();
 	SettingsFiles sf;
@@ -43,7 +49,7 @@ public class MainMenuFrame extends BasicTWLGameState {
 	 * Height of the buttons
 	 */
 	private static final int BUTTON_HEIGHT = 45;
-	private static GameContainer gContainer;
+
 	
 	/**
 	 * Position of the button on the X Axis
@@ -69,18 +75,23 @@ public class MainMenuFrame extends BasicTWLGameState {
 	private static Color textColour = Color.black;
 	private UnicodeFont ttf;
 	
-	private Graphics menuGraphics = new Graphics();
-	private static Image button_image = null;
-	private static Image button_selected = null;
+	private SpriteBatch menuGraphics = new SpriteBatch();
+	private static Texture button_image = null;
+	private static Texture button_selected = null;
 
 	private Audio main_menu_music;
 	private Audio main_menu_button_hover;
 	
 	private GameIntroState gis;
-	MainMenuFrame(SettingsFiles sf, SettingsVariablesStore svs, GameIntroState gis) throws LWJGLException{
+	private SettingsVariablesStore svs;
+	private BookGame bookGame;
+	
+	public MainMenuFrame(SettingsFiles sf, SettingsVariablesStore svs, GameIntroState gis, BookGame bookGame) throws LWJGLException{
 		//first line of GUI to run
 		this.sf = sf;
 		this.gis = gis;
+		this.svs = svs;
+		this.bookGame = bookGame;
 		//passes info to the settings frame
 		SettingsFrame sfm = new SettingsFrame(sf, svs, this);
 		sfm.displaySettingsWindow(); // displays the settings window
@@ -90,7 +101,7 @@ public class MainMenuFrame extends BasicTWLGameState {
 		this.mwf = mwf;
 
 		bdp = mwf.getBottomDisplayPanel();
-
+		new Stage(svs.getResWidth(),svs.getResHeight(),svs.getFullScreen());
 	}
 
 	/**
@@ -107,7 +118,7 @@ public class MainMenuFrame extends BasicTWLGameState {
 			buttonYPos += (BUTTON_HEIGHT + BUTTON_SPACING);
 			//Check if mouse is over a button
 			if (x > buttonXPos && x < (buttonXPos + BUTTON_WIDTH) && y < buttonYPos && y > (buttonYPos -  BUTTON_HEIGHT)){
-				button_selected.draw(buttonXPos,(gContainer.getHeight() - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
+				menuGraphics.draw(button_selected, buttonXPos,(svs.getResHeight() - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
 				textColour = Color.blue;
 				if(!main_menu_button_hover.isPlaying()){
 					main_menu_button_hover.playAsSoundEffect(1.0f, 1.0f, false);
@@ -142,7 +153,7 @@ public class MainMenuFrame extends BasicTWLGameState {
 			}
 			else{
 				//Used to start displaying buttons from the bottom of the screen
-				button_image.draw(buttonXPos,(gContainer.getHeight() - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
+				menuGraphics.draw(button_image,buttonXPos,(svs.getResHeight() - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
 				textColour = Color.black;
 			}
 
@@ -176,7 +187,7 @@ public class MainMenuFrame extends BasicTWLGameState {
 	}
 
 	public void createButtonText(int xpos, int ypos, String text){
-		ttf.drawString((xpos + BUTTON_TEXT_CENTER_X), ((gContainer.getHeight() - ypos ) + BUTTON_TEXT_CENTER_Y), text, textColour);
+		ttf.drawString((xpos + BUTTON_TEXT_CENTER_X), ((svs.getResHeight() - ypos ) + BUTTON_TEXT_CENTER_Y), text, textColour);
 	}
 
 	public void startGameThreads(){
@@ -230,20 +241,30 @@ public class MainMenuFrame extends BasicTWLGameState {
 	}
 
 	@Override
-	public void init(GameContainer gContainer, StateBasedGame arg1)throws SlickException {
-		MainMenuFrame.gContainer = gContainer;
-		ttf = gis.getMenuFont();
-		buttonXPos = (int) Math.round(gContainer.getWidth()/2.5); // centers buttons on the x axis
+	public void render(float delta) {
+		//Gdx.gl.
+		menuGraphics.begin();
+		menuGraphics.setColor(0,0,0, delta);
+		createButtons();
+		menuGraphics.end();
+		SoundStore.get().poll(0);
+		
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void show() {
+		ttf = bookGame.getMenuFont();
+		buttonXPos = (int) Math.round(svs.getResWidth()/2.5); // centers buttons on the x axis
 		
 				
-		//Load images for the buttons
-		try {
-			button_selected = new Image("res/images/main_menu/button_base_selected.png");
-			button_image = new Image("res/images/main_menu/button_base.png");
-		} catch (SlickException e) {
-			
-			e.printStackTrace();
-		}
+		button_selected = new Texture(Gdx.files.internal("res/images/main_menu/button_base_selected.png"));
+		button_image = new Texture(Gdx.files.internal("res/images/main_menu/button_base.png"));
 
 		//load music and sounds
 		try {
@@ -255,26 +276,30 @@ public class MainMenuFrame extends BasicTWLGameState {
 		
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)throws SlickException {
-		menuGraphics.setBackground(Color.white);
-		createButtons();
+	public void pause() {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)throws SlickException {
+	public void resume() {
+		// TODO Auto-generated method stub
 		
-		SoundStore.get().poll(0);
 	}
 
 	@Override
-	public int getID() {
-
-		return 1;
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

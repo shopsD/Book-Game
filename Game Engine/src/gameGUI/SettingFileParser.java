@@ -17,7 +17,8 @@ public class SettingFileParser extends DefaultHandler {
 	private static  SAXParser parser;
 	
 	private static String elementValue;
-	SettingFileParser(SettingsVariablesStore svs){
+	
+	public SettingFileParser(SettingsVariablesStore svs){
 		this.svs = svs;
 		try {
 			parser = pFactory.newSAXParser();

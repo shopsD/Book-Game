@@ -1,13 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/LWJGL v2.9.1">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Windows"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/TWL"/>
-	<classpathentry kind="output" path="bin"/>
+    <classpathentry kind="src" path="src"/>
+    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+    <classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/LWJGL v2.9.1">
+        <attributes>
+            <attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Windows"/>
+        </attributes>
+    </classpathentry>
+    <classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/TWL"/>
+    <classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/libGDX"/>
+    <classpathentry kind="output" path="bin"/>
+    <classpathentry exported="true" kind="lib" path="libs/gdx.jar" sourcepath="libs/gdx-sources.jar"/>
 </classpath>
