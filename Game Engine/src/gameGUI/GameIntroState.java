@@ -2,24 +2,15 @@ package gameGUI;
 
 import gameEntry.BookGame;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.IOException;
-
-import org.lwjgl.LWJGLException;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
-import org.newdawn.slick.util.ResourceLoader;
-
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameIntroState implements Screen{
 
 	private int loading = 0;
 	Graphics loadingGraphics = new Graphics();
+	SpriteBatch batch = new SpriteBatch();
 	MainMenuFrame mmf;
 	SettingsVariablesStore svs;
 	SettingsFiles sf;
@@ -33,11 +24,14 @@ public class GameIntroState implements Screen{
 	@Override
 	public void render(float delta) {
 		//increase the length of the loading bar
+		batch.begin();
+		
 		loadingGraphics.fillRoundRect(Math.round(svs.getResWidth()/10), Math.round(svs.getResHeight()/2), (loading * 3400)/(svs.getResWidth()/4), 40, 5);
 		if(loading == 100){
-			//bookGame.setScreen(mmf);
+			bookGame.setScreen(mmf);
 		}
 		loading++;
+		batch.end();
 	}
 
 
@@ -53,7 +47,7 @@ public class GameIntroState implements Screen{
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		
+		this.dispose();
 	}
 
 

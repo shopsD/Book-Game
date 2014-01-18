@@ -6,23 +6,19 @@ import javax.swing.JPanel;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.openal.Audio;
-import org.newdawn.slick.openal.AudioLoader;
-import org.newdawn.slick.openal.SoundStore;
-import org.newdawn.slick.util.ResourceLoader;
 
 
 
 
 
 
+
+
+
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -72,8 +68,8 @@ public class MainMenuFrame implements Screen {
 	 * Position of text relative to the buttons background image on the y axis
 	 */
 	private static final int BUTTON_TEXT_CENTER_Y = 5;
-	private static Color textColour = Color.black;
-	private UnicodeFont ttf;
+	private static Color textColour = Color.BLACK;
+	//private UnicodeFont ttf;
 	
 	private SpriteBatch menuGraphics = new SpriteBatch();
 	private static Texture button_image = null;
@@ -119,10 +115,10 @@ public class MainMenuFrame implements Screen {
 			//Check if mouse is over a button
 			if (x > buttonXPos && x < (buttonXPos + BUTTON_WIDTH) && y < buttonYPos && y > (buttonYPos -  BUTTON_HEIGHT)){
 				menuGraphics.draw(button_selected, buttonXPos,(svs.getResHeight() - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
-				textColour = Color.blue;
-				if(!main_menu_button_hover.isPlaying()){
-					main_menu_button_hover.playAsSoundEffect(1.0f, 1.0f, false);
-				}
+				textColour = Color.BLUE;
+				//if(!main_menu_button_hover.isPlaying()){
+				//	main_menu_button_hover.playAsSoundEffect(1.0f, 1.0f, false);
+				//}
 				if(Mouse.isButtonDown(0)){
 					switch(i){
 					case 1:
@@ -154,7 +150,7 @@ public class MainMenuFrame implements Screen {
 			else{
 				//Used to start displaying buttons from the bottom of the screen
 				menuGraphics.draw(button_image,buttonXPos,(svs.getResHeight() - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
-				textColour = Color.black;
+				textColour = Color.BLACK;
 			}
 
 			//Draw text
@@ -187,7 +183,7 @@ public class MainMenuFrame implements Screen {
 	}
 
 	public void createButtonText(int xpos, int ypos, String text){
-		ttf.drawString((xpos + BUTTON_TEXT_CENTER_X), ((svs.getResHeight() - ypos ) + BUTTON_TEXT_CENTER_Y), text, textColour);
+		//ttf.drawString((xpos + BUTTON_TEXT_CENTER_X), ((svs.getResHeight() - ypos ) + BUTTON_TEXT_CENTER_Y), text, textColour);
 	}
 
 	public void startGameThreads(){
@@ -242,12 +238,11 @@ public class MainMenuFrame implements Screen {
 
 	@Override
 	public void render(float delta) {
-		//Gdx.gl.
 		menuGraphics.begin();
 		menuGraphics.setColor(0,0,0, delta);
 		createButtons();
 		menuGraphics.end();
-		SoundStore.get().poll(0);
+		//SoundStore.get().poll(0);
 		
 	}
 
@@ -259,23 +254,12 @@ public class MainMenuFrame implements Screen {
 
 	@Override
 	public void show() {
-		ttf = bookGame.getMenuFont();
+		//ttf = bookGame.getMenuFont();
 		buttonXPos = (int) Math.round(svs.getResWidth()/2.5); // centers buttons on the x axis
 		
 				
 		button_selected = new Texture(Gdx.files.internal("res/images/main_menu/button_base_selected.png"));
 		button_image = new Texture(Gdx.files.internal("res/images/main_menu/button_base.png"));
-
-		//load music and sounds
-		try {
-			main_menu_music = AudioLoader.getStreamingAudio("OGG", ResourceLoader.getResource("res/sound/music/main_menu_music.ogg"));
-
-			main_menu_button_hover = AudioLoader.getStreamingAudio("OGG", ResourceLoader.getResource("res/sound/effects/main_menu_button_hover.ogg"));
-			main_menu_music.playAsMusic(1.0f, 1.0f, true); // start playing background music
-		} catch (IOException e) {
-		
-			e.printStackTrace();
-		}
 	}
 
 	@Override
