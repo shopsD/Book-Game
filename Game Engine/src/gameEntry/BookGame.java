@@ -59,13 +59,7 @@ public class BookGame extends Game{
 		loading = 0;
 		GameIntroState gis = new GameIntroState(sf, svs, this);
 
-		try {
-			mmf = new MainMenuFrame(sf, svs, gis, this);
-		} catch (LWJGLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		setScreen(mmf);
+		setScreen(gis);
 	}
 
 

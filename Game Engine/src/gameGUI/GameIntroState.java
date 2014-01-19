@@ -4,9 +4,12 @@ import gameEntry.BookGame;
 import gameEntry.SettingsFiles;
 import gameEntry.SettingsVariablesStore;
 
+import org.lwjgl.LWJGLException;
 import org.newdawn.slick.Graphics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameIntroState implements Screen{
@@ -27,11 +30,13 @@ public class GameIntroState implements Screen{
 	@Override
 	public void render(float delta) {
 		//increase the length of the loading bar
+		 Gdx.gl.glClearColor(0, 0, 0, 0);
+         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		
 		loadingGraphics.fillRoundRect(Math.round(svs.getResWidth()/10), Math.round(svs.getResHeight()/2), (loading * 3400)/(svs.getResWidth()/4), 40, 5);
 		if(loading == 100){
-			bookGame.setScreen(mmf);
+			bookGame.setScreen(new MainMenuFrame(sf, svs, this, bookGame));
 		}
 		loading++;
 		batch.end();
@@ -49,15 +54,13 @@ public class GameIntroState implements Screen{
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-		this.dispose();
 	}
 
 
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
+		batch.end();
 		
 	}
 

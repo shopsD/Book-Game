@@ -1,33 +1,17 @@
 package gameGUI;
 
-import java.io.IOException;
-
 import javax.swing.JPanel;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Mouse;
-
-
-
-
-
-
-
-
-
-
-
-
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-
 import gameController.DataController;
 import gameEntry.BookGame;
 import gameEntry.SettingsFiles;
@@ -36,14 +20,19 @@ import gameEntry.SettingsVariablesStore;
 public class MainMenuFrame implements Screen {
 
 	JPanel mainMenuPanel = new JPanel();
-	SettingsFiles sf;
-	MainWindowFrame mwf;
-	SettingsFrame sfm;
-	DataController dc;
-	BottomDisplayPanel bdp;
-	CreateCharacterFrame ccf;
+
+	private SettingsFiles sf;
+	private MainWindowFrame mwf;
+	private SettingsFrame sfm;
+	private DataController dc;
+	private BottomDisplayPanel bdp;
+	private CreateCharacterFrame ccf;
+	private GameIntroState gis;
+	private SettingsVariablesStore svs;
+	private BookGame bookGame;
+
 	private volatile boolean gamePaused = false; // to be  used for pausing the game
-	
+
 	/**
 	 * Width of a button
 	 */
@@ -53,7 +42,7 @@ public class MainMenuFrame implements Screen {
 	 */
 	private static final int BUTTON_HEIGHT = 45;
 
-	
+
 	/**
 	 * Position of the button on the X Axis
 	 */
@@ -62,7 +51,7 @@ public class MainMenuFrame implements Screen {
 	 * Position of the button on the Y Axis
 	 */
 	private static int buttonYPos;
-	
+
 	/**
 	 * Space between buttons
 	 */
@@ -77,19 +66,18 @@ public class MainMenuFrame implements Screen {
 	private static final int BUTTON_TEXT_CENTER_Y = 5;
 	private static Color textColour = Color.BLACK;
 	//private UnicodeFont ttf;
-	
-	private SpriteBatch menuGraphics = new SpriteBatch();
-	private static Texture button_image = null;
-	private static Texture button_selected = null;
 
-	private Music main_menu_music;
-	private Sound main_menu_button_hover;
-	
-	private GameIntroState gis;
-	private SettingsVariablesStore svs;
-	private BookGame bookGame;
-	
-	public MainMenuFrame(SettingsFiles sf, SettingsVariablesStore svs, GameIntroState gis, BookGame bookGame) throws LWJGLException{
+	private SpriteBatch menuGraphics = new SpriteBatch();
+	private static Texture buttonTexture;
+	private static Texture buttonHoverTexture;
+	private static Sprite buttonBaseSprite;
+	private static Sprite buttonHoverSprite;
+	private Music mainMenuMusic;
+	private Sound mainMenuButtonHover;
+
+
+
+	public MainMenuFrame(SettingsFiles sf, SettingsVariablesStore svs, GameIntroState gis, BookGame bookGame){
 		//first line of GUI to run
 		this.sf = sf;
 		this.gis = gis;
@@ -104,16 +92,16 @@ public class MainMenuFrame implements Screen {
 		this.mwf = mwf;
 
 		bdp = mwf.getBottomDisplayPanel();
-		new Stage(svs.getResWidth(),svs.getResHeight(),svs.getFullScreen());
+		//new Stage(svs.getResWidth(),svs.getResHeight(),svs.getFullScreen());
 	}
 
 	/**
 	 * Creates buttons for the main menu
 	 */
 	private void createButtons (){
-		buttonYPos = 0;
-		int x = Mouse.getX();
-		int y = Mouse.getY();
+		buttonYPos =0;
+		int x = Gdx.input.getX();
+		int y = Gdx.input.getY();
 
 		//Loop to create buttons
 		//Buttons are created from the bottom to the top
@@ -121,69 +109,69 @@ public class MainMenuFrame implements Screen {
 			buttonYPos += (BUTTON_HEIGHT + BUTTON_SPACING);
 			//Check if mouse is over a button
 			if (x > buttonXPos && x < (buttonXPos + BUTTON_WIDTH) && y < buttonYPos && y > (buttonYPos -  BUTTON_HEIGHT)){
-				menuGraphics.draw(button_selected, buttonXPos,(svs.getResHeight() - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
 				textColour = Color.BLUE;
-				//if(!main_menu_button_hover.isPlaying()){
-				//	main_menu_button_hover.playAsSoundEffect(1.0f, 1.0f, false);
-				//}
-				if(Mouse.isButtonDown(0)){
+				
+				mainMenuButtonHover.play();
+				
+				buttonHoverSprite.setPosition(buttonXPos, (svs.getResHeight() - buttonYPos));
+				buttonHoverSprite.draw(menuGraphics);
+				
+				if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
 					switch(i){
 					case 1:
-						System.exit(0);
-
+						ccf = new CreateCharacterFrame(this);	
+						break;
 					case 2:
-						System.out.println("Credits");
-						break;
-					case 3:
-						System.out.println("Help");
-						break;
-
-					case 4:
-						System.out.println("Settings");
-						break;
-
-					case 5:
 						System.out.println("Load Game");
 
 						break;
-
-					case 6:
-						ccf = new CreateCharacterFrame(this);
-
+					case 3:
+						System.out.println("Settings");
 						break;
+
+					case 4:
+						System.out.println("Help");
+						break;
+
+					case 5:
+						System.out.println("Credits");
+						break;
+					case 6:
+						System.exit(0);
 					}
 				}
 			}
 			else{
 				//Used to start displaying buttons from the bottom of the screen
-				menuGraphics.draw(button_image,buttonXPos,(svs.getResHeight() - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
+				buttonBaseSprite.setPosition(buttonXPos, (svs.getResHeight() - buttonYPos));
+				buttonBaseSprite.draw(menuGraphics);
 				textColour = Color.BLACK;
 			}
-
+			System.out.println(Gdx.input.getY());
 			//Draw text
 			switch(i){
 			case 1:
-				createButtonText(buttonXPos,buttonYPos, "Quit Game");
+				createButtonText(buttonXPos,buttonYPos, "Start Game");
 				break;
 
 			case 2:
-				createButtonText(buttonXPos,buttonYPos, "Credits");
-				break;
-
-			case 3:
-				createButtonText(buttonXPos,buttonYPos, "Help");
-				break;
-
-			case 4:
-				createButtonText(buttonXPos,buttonYPos, "Settings");
-				break;
-
-			case 5:
 				createButtonText(buttonXPos,buttonYPos, "Load Game");
 				break;
 
+			case 3:
+				createButtonText(buttonXPos,buttonYPos, "Settings");
+				break;
+
+			case 4:
+				createButtonText(buttonXPos,buttonYPos, "Help");
+				break;
+
+			case 5:
+				createButtonText(buttonXPos,buttonYPos, "Credits");
+				break;
+
 			case 6:
-				createButtonText(buttonXPos,buttonYPos, "Start Game");
+				createButtonText(buttonXPos,buttonYPos, "Quit Game");
 				break;
 			}
 		}
@@ -245,56 +233,70 @@ public class MainMenuFrame implements Screen {
 
 	@Override
 	public void render(float delta) {
+		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		menuGraphics.begin();
-		menuGraphics.setColor(0,0,0, delta);
+
+
 		createButtons();
 		menuGraphics.end();
-		//SoundStore.get().poll(0);
-		
+
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void show() {
 		//ttf = bookGame.getMenuFont();
 		buttonXPos = (int) Math.round(svs.getResWidth()/2.5); // centers buttons on the x axis
+
+
+		buttonHoverTexture = new Texture(Gdx.files.internal("res/images/main_menu/button_base_selected.png"));
+		buttonTexture = new Texture(Gdx.files.internal("res/images/main_menu/button_base.png"));
+
+		buttonBaseSprite = new Sprite(buttonTexture);
+		buttonHoverSprite = new Sprite(buttonHoverTexture);
+
+		buttonBaseSprite.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+		buttonHoverSprite.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+		//load music
+		mainMenuMusic = Gdx.audio.newMusic(Gdx.files.internal("res/music/Luxian Voyage.ogg"));
+
+		mainMenuMusic.setVolume(svs.getMusicVolume());
+		mainMenuMusic.setLooping(true);
+		mainMenuMusic.play();
 		
-				
-		button_selected = new Texture(Gdx.files.internal("res/images/main_menu/button_base_selected.png"));
-		button_image = new Texture(Gdx.files.internal("res/images/main_menu/button_base.png"));
-		main_menu_music = Gdx.audio.newMusic(Gdx.files.internal("res/music/Luxian Voyage.ogg"));
-		main_menu_music.setVolume(svs.getMusicVolume());
-		main_menu_music.play();
+		mainMenuButtonHover = Gdx.audio.newSound(Gdx.files.internal("res/sound/main_menu_button_hover.ogg"));
+		mainMenuButtonHover.setVolume(0, svs.getSoundVolume());
 	}
 
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-		main_menu_music.stop();
+		mainMenuMusic.stop();
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		main_menu_music.stop();
-		main_menu_music.dispose();
+		mainMenuMusic.stop();
+		mainMenuMusic.dispose();
 	}
 
 }
