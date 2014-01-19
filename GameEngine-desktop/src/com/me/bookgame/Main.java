@@ -14,7 +14,8 @@ public class Main {
 		bg.loadGameSettings("../Game Engine/bin/res/config/config.xml");
 		cfg.width = bg.getSettingsVariablesStore().getResWidth();
 		cfg.height = bg.getSettingsVariablesStore().getResHeight();
-		
+		cfg.fullscreen = bg.getSettingsVariablesStore().getFullScreen();
+		cfg.vSyncEnabled = bg.getSettingsVariablesStore().getVsync();
 		new LwjglApplication(bg, cfg);
 	}
 }
