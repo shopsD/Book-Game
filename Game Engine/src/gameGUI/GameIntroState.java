@@ -60,7 +60,6 @@ public class GameIntroState implements Screen{
 
 	@Override
 	public void hide() {
-		batch.end();
 		
 	}
 

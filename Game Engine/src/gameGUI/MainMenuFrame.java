@@ -99,7 +99,7 @@ public class MainMenuFrame implements Screen {
 	 * Creates buttons for the main menu
 	 */
 	private void createButtons (){
-		buttonYPos =0;
+		buttonYPos = Math.round(svs.getResHeight()/2.5f);
 		int x = Gdx.input.getX();
 		int y = Gdx.input.getY();
 
@@ -147,7 +147,6 @@ public class MainMenuFrame implements Screen {
 				buttonBaseSprite.draw(menuGraphics);
 				textColour = Color.BLACK;
 			}
-			System.out.println(Gdx.input.getY());
 			//Draw text
 			switch(i){
 			case 1:
