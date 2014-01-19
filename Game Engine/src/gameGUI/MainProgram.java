@@ -4,7 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 
 public class MainProgram{
 	
-
+//class is deprecated
 	
 	/*public static void main(String[] args) {
 		////-----Version 0.7.0.0

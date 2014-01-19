@@ -1,6 +1,8 @@
 package gameGUI;
 
 import gameController.DataController;
+import gameEntry.SettingsFiles;
+import gameEntry.SettingsVariablesStore;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

@@ -15,9 +15,14 @@ import org.lwjgl.input.Mouse;
 
 
 
+
+
+
 import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,6 +30,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import gameController.DataController;
 import gameEntry.BookGame;
+import gameEntry.SettingsFiles;
+import gameEntry.SettingsVariablesStore;
 
 public class MainMenuFrame implements Screen {
 
@@ -75,8 +82,8 @@ public class MainMenuFrame implements Screen {
 	private static Texture button_image = null;
 	private static Texture button_selected = null;
 
-	private Audio main_menu_music;
-	private Audio main_menu_button_hover;
+	private Music main_menu_music;
+	private Sound main_menu_button_hover;
 	
 	private GameIntroState gis;
 	private SettingsVariablesStore svs;
@@ -260,12 +267,15 @@ public class MainMenuFrame implements Screen {
 				
 		button_selected = new Texture(Gdx.files.internal("res/images/main_menu/button_base_selected.png"));
 		button_image = new Texture(Gdx.files.internal("res/images/main_menu/button_base.png"));
+		main_menu_music = Gdx.audio.newMusic(Gdx.files.internal("res/music/Luxian Voyage.ogg"));
+		main_menu_music.setVolume(svs.getMusicVolume());
+		main_menu_music.play();
 	}
 
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-		
+		main_menu_music.stop();
 	}
 
 	@Override
@@ -283,7 +293,8 @@ public class MainMenuFrame implements Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
+		main_menu_music.stop();
+		main_menu_music.dispose();
 	}
 
 }

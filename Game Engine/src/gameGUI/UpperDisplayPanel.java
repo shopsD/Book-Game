@@ -2,6 +2,7 @@ package gameGUI;
 
 import gameController.DataController;
 import gameController.ManuscriptCreator;
+import gameEntry.SettingsFiles;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

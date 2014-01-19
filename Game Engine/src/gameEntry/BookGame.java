@@ -2,11 +2,9 @@ package gameEntry;
 
 import gameGUI.GameIntroState;
 import gameGUI.MainMenuFrame;
-import gameGUI.SettingFileParser;
-import gameGUI.SettingsFiles;
-import gameGUI.SettingsVariablesStore;
 
 import org.lwjgl.LWJGLException;
+
 
 
 
@@ -67,7 +65,7 @@ public class BookGame extends Game{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		setScreen(gis);
+		setScreen(mmf);
 	}
 
 

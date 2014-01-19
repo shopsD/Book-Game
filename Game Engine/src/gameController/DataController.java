@@ -1,10 +1,10 @@
 package gameController;
 
+import gameEntry.SettingsVariablesStore;
 import gameGUI.MainGamePanel;
 import gameGUI.MainMenuFrame;
 import gameGUI.ManuscriptCompleteFrame;
 import gameGUI.NewProductionFrame;
-import gameGUI.SettingsVariablesStore;
 import gameGUI.UpperDisplayPanel;
 
 public class DataController implements Runnable{

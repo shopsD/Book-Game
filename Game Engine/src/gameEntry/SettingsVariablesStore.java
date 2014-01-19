@@ -1,4 +1,4 @@
-package gameGUI;
+package gameEntry;
 
 public class SettingsVariablesStore {
 	//class is for storing variables

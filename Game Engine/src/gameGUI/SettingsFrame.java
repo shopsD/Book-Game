@@ -1,5 +1,8 @@
 package gameGUI;
 
+import gameEntry.SettingsFiles;
+import gameEntry.SettingsVariablesStore;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

@@ -1,4 +1,4 @@
-package gameGUI;
+package gameEntry;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -126,12 +126,12 @@ public class SettingsFiles {
 		//Sound settings
 		parentElem = doc.createElement("SOUND");
 			childElem = doc.createElement("SOUND_ON");
-				childElem.setAttribute("VOLUME_SOUND", "50");
+				childElem.setAttribute("VOLUME_SOUND", "0.5f");
 				childElem.appendChild(doc.createTextNode("TRUE"));
 			parentElem.appendChild(childElem);
 		//Music Settings
 			childElem = doc.createElement("MUSIC_ON");
-				childElem.setAttribute("VOLUME_MUSIC", "50");
+				childElem.setAttribute("VOLUME_MUSIC", "0.5f");
 				childElem.appendChild(doc.createTextNode("TRUE"));
 			parentElem.appendChild(childElem);
 		

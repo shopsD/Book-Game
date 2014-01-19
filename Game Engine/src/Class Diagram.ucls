@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="gameGUI.SettingFileParser" project="Game Engine" 
-    file="/Game Engine/src/gameGUI/SettingFileParser.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="1" language="java" name="gameEntry.SettingFileParser" project="Game Engine" 
+    file="/Game Engine/src/gameEntry/SettingFileParser.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="243" width="256" x="570" y="4651"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -64,8 +64,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="gameGUI.SettingsVariablesStore" project="Game Engine" 
-    file="/Game Engine/src/gameGUI/SettingsVariablesStore.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="8" language="java" name="gameEntry.SettingsVariablesStore" project="Game Engine" 
+    file="/Game Engine/src/gameEntry/SettingsVariablesStore.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="495" width="161" x="570" y="4934"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -100,8 +100,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="12" language="java" name="gameGUI.SettingsFiles" project="Game Engine" 
-    file="/Game Engine/src/gameGUI/SettingsFiles.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="12" language="java" name="gameEntry.SettingsFiles" project="Game Engine" 
+    file="/Game Engine/src/gameEntry/SettingsFiles.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="315" width="289" x="516" y="4296"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      

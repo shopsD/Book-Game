@@ -1,8 +1,10 @@
 package test;
 
 import static org.junit.Assert.*;
-import gameGUI.SettingsFiles;
+import gameEntry.SettingsFiles;
+
 import java.io.FileNotFoundException;
+
 import org.junit.Test;
 
 public class TestFiles {

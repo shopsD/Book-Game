@@ -1,4 +1,4 @@
-package gameGUI;
+package gameEntry;
 
 import java.io.IOException;
 

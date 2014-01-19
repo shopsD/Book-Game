@@ -1,8 +1,11 @@
 package gameGUI;
 
 import gameEntry.BookGame;
+import gameEntry.SettingsFiles;
+import gameEntry.SettingsVariablesStore;
 
 import org.newdawn.slick.Graphics;
+
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
