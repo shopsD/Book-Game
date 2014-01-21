@@ -110,7 +110,7 @@ public class MainMenuFrame implements Screen {
 			if (x > buttonXPos && x < (buttonXPos + BUTTON_WIDTH) && y < buttonYPos && y > (buttonYPos -  BUTTON_HEIGHT)){
 				textColour = Color.BLUE;
 				
-				//mainMenuButtonHover.play();
+				mainMenuButtonHover.play();
 				
 				buttonHoverSprite.setPosition(buttonXPos, (svs.getResHeight() - buttonYPos));
 				buttonHoverSprite.draw(menuGraphics);
