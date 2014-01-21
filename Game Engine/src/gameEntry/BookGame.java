@@ -8,7 +8,9 @@ import org.lwjgl.LWJGLException;
 
 
 
+
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class BookGame extends Game{
@@ -42,6 +44,9 @@ public class BookGame extends Game{
 
 	@Override
 	public void create() {
+		if(svs.getResHeight() == 0|| svs.getResWidth() == 0){
+			svs.setResolution(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		}
 	camera = new OrthographicCamera(1, svs.getResHeight()/svs.getResWidth());
 		//ttf = new UnicodeFont(new Font("Verdana", Font.ITALIC, 20));// load default font
 		//try {
