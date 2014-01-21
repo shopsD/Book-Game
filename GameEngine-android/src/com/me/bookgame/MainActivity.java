@@ -13,6 +13,9 @@ public class MainActivity extends AndroidApplication {
         
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useGL20 = false;
+        cfg.useCompass = false;
+		cfg.useAccelerometer = false;
+        
         BookGame bg = new BookGame();
         bg.getSettingsVariablesStore().setMusicVolume(1.0f);
         bg.getSettingsVariablesStore().setSoundVolume(1.0f);

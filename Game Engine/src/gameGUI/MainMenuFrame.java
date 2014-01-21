@@ -64,7 +64,16 @@ public class MainMenuFrame implements Screen {
 	private static final int BUTTON_TEXT_CENTER_Y = 5;
 	private static Color textColour = Color.BLACK;
 	//private UnicodeFont ttf;
-
+	/**
+	 * Position of the pointer or screen tap on the Y Axis
+	 */
+	private static int mouseY;
+	
+	/**
+	 * Position of the pointer or screen tap on the X Axis
+	 */
+	private static int mouseX;
+	
 	private SpriteBatch menuGraphics = new SpriteBatch();
 	private static Texture buttonTexture;
 	private static Texture buttonHoverTexture;
@@ -99,19 +108,19 @@ public class MainMenuFrame implements Screen {
 	private void createButtons (){
 		
 		buttonYPos = Math.round(svs.getResHeight()/2.5f);
-		int x = Gdx.input.getX();
-		int y = Gdx.input.getY();
+		mouseX = Gdx.input.getX();
+		mouseY = Gdx.input.getY();
 
 		//Loop to create buttons
 		//Buttons are created from the bottom to the top
 		for(int i =1; i <= 6; i++){
 			buttonYPos += (BUTTON_HEIGHT + BUTTON_SPACING);
 			//Check if mouse is over a button
-			if (x > buttonXPos && x < (buttonXPos + BUTTON_WIDTH) && y < buttonYPos && y > (buttonYPos -  BUTTON_HEIGHT)){
+			if (mouseX > buttonXPos && mouseX < (buttonXPos + BUTTON_WIDTH) && mouseY < buttonYPos && mouseY > (buttonYPos -  BUTTON_HEIGHT)){
 				textColour = Color.BLUE;
 				
 				mainMenuButtonHover.play();
-				
+				//draw the button hovered image
 				buttonHoverSprite.setPosition(buttonXPos, (svs.getResHeight() - buttonYPos));
 				buttonHoverSprite.draw(menuGraphics);
 				
@@ -136,6 +145,11 @@ public class MainMenuFrame implements Screen {
 						System.out.println("Credits");
 						break;
 					case 6:
+						mainMenuMusic.stop();
+						mainMenuMusic.dispose();
+						mainMenuButtonHover.dispose();
+						menuGraphics.disableBlending();
+						menuGraphics.dispose();
 						System.exit(0);
 					}
 				}
@@ -235,9 +249,7 @@ public class MainMenuFrame implements Screen {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		menuGraphics.begin();
-
-
-		createButtons();
+		createButtons();//draw the buttons and associated text
 		menuGraphics.end();
 
 	}
@@ -252,10 +264,10 @@ public class MainMenuFrame implements Screen {
 		//ttf = bookGame.getMenuFont();
 		buttonXPos = (int) Math.round(svs.getResWidth()/2.5); // centers buttons on the x axis
 
-
+		//load button images
 		buttonHoverTexture = new Texture(Gdx.files.internal("images/main_menu/button_base_selected.png"));
 		buttonTexture = new Texture(Gdx.files.internal("images/main_menu/button_base.png"));
-
+		//assign button images to sprite
 		buttonBaseSprite = new Sprite(buttonTexture);
 		buttonHoverSprite = new Sprite(buttonHoverTexture);
 

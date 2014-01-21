@@ -6,36 +6,45 @@ import gameEntry.SettingsVariablesStore;
 
 
 
+
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class GameIntroState implements Screen{
 
-	private int loading = 0;
-	//Graphics loadingGraphics = new Graphics();
-	SpriteBatch batch = new SpriteBatch();
-	MainMenuFrame mmf;
-	SettingsVariablesStore svs;
-	SettingsFiles sf;
-	private BookGame bookGame;
+	private static int loading = 0;
+	private static ShapeRenderer shapeRenderer = new ShapeRenderer();
+	private static SpriteBatch batch = new SpriteBatch();
+	private static MainMenuFrame mmf;
+	private static SettingsVariablesStore svs;
+	private static SettingsFiles sf;
+	private static BookGame bookGame;
+
 	public GameIntroState(SettingsFiles sf, SettingsVariablesStore svs,BookGame bookGame) {
-		this.sf = sf;
-		this.svs = svs;
-		this.bookGame = bookGame;
+		GameIntroState.sf = sf;
+		GameIntroState.svs = svs;
+		GameIntroState.bookGame = bookGame;
 	}
 
 	@Override
 	public void render(float delta) {
-		//increase the length of the loading bar
-		 Gdx.gl.glClearColor(0, 0, 0, 0);
-         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		batch.begin();
 		
-		//loadingGraphics.fillRoundRect(Math.round(svs.getResWidth()/10), Math.round(svs.getResHeight()/2), (loading * 3400)/(svs.getResWidth()/4), 40, 5);
+		Gdx.gl.glClearColor(0, 0, 0, 0);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		batch.begin();
+		shapeRenderer.begin(ShapeType.Filled);
+		//increase the length of the loading bar
+		shapeRenderer.rect(Math.round(svs.getResWidth()/10), 40,(loading * 3400)/(svs.getResWidth()/4) , Math.round(svs.getResHeight()/10));
+		shapeRenderer.end();
 		if(loading == 100){
-			bookGame.setScreen(new MainMenuFrame(sf, svs, this, bookGame));
+			//transition to main menu
+			GameIntroState.mmf = new MainMenuFrame(sf, svs, this, bookGame);
+			bookGame.setScreen(GameIntroState.mmf);
 		}
 		loading++;
 		batch.end();
@@ -46,7 +55,7 @@ public class GameIntroState implements Screen{
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 
@@ -59,7 +68,7 @@ public class GameIntroState implements Screen{
 
 	@Override
 	public void hide() {
-		
+
 	}
 
 
@@ -67,7 +76,7 @@ public class GameIntroState implements Screen{
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 
@@ -75,7 +84,7 @@ public class GameIntroState implements Screen{
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 
@@ -83,6 +92,6 @@ public class GameIntroState implements Screen{
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
