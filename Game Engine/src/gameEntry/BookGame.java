@@ -36,12 +36,13 @@ public class BookGame extends Game{
 	public void loadGameSettings(String filePath){
 		//Creates files to be read
 		//reads the configuration files
+		sf.initializeWriters();
 		sf.readSettingsFile(filePath);
 	}
 
 	@Override
 	public void create() {
-		camera = new OrthographicCamera(1, svs.getResHeight()/svs.getResWidth());
+	camera = new OrthographicCamera(1, 380/180/*svs.getResHeight()/svs.getResWidth()*/);
 		//ttf = new UnicodeFont(new Font("Verdana", Font.ITALIC, 20));// load default font
 		//try {
 			// creates a new custom font
@@ -57,7 +58,7 @@ public class BookGame extends Game{
 		//	e1.printStackTrace();
 		//}
 		loading = 0;
-		GameIntroState gis = new GameIntroState(sf, svs, this);
+		GameIntroState gis = new GameIntroState(/*sf*/null, svs, this);
 
 		setScreen(gis);
 	}

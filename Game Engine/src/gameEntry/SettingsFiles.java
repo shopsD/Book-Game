@@ -27,10 +27,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import com.badlogic.gdx.Gdx;
+
 
 public class SettingsFiles {
-	private static GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-	
+	private static GraphicsDevice gd;
 	private static File setFile;
 	private static DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 	private static Document doc;
@@ -49,14 +50,15 @@ public class SettingsFiles {
 	public SettingsFiles(SettingsVariablesStore svs, SettingFileParser sfp) {
 		this.svs = svs;
 		this.sfp = sfp;
-		initializeWriters();
+		
 	}
 
 	/**
 	 * Loads document readers
 	 * @return True if writers loaded successfully
 	 */
-	private boolean initializeWriters(){
+	public boolean initializeWriters(){
+		gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		try {
 			db = dbf.newDocumentBuilder();
 			doc = db.newDocument();

@@ -1,6 +1,6 @@
 package gameGUI;
 
-import javax.swing.JPanel;
+
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -18,8 +18,6 @@ import gameEntry.SettingsFiles;
 import gameEntry.SettingsVariablesStore;
 
 public class MainMenuFrame implements Screen {
-
-	JPanel mainMenuPanel = new JPanel();
 
 	private SettingsFiles sf;
 	private MainWindowFrame mwf;
@@ -84,14 +82,14 @@ public class MainMenuFrame implements Screen {
 		this.svs = svs;
 		this.bookGame = bookGame;
 		//passes info to the settings frame
-		SettingsFrame sfm = new SettingsFrame(sf, svs, this);
-		sfm.displaySettingsWindow(); // displays the settings window
-		MainWindowFrame mwf = new MainWindowFrame(sf, sfm, this, svs,/* dc,*/ ccf);
+		//SettingsFrame sfm = new SettingsFrame(sf, svs, this);
+		//sfm.displaySettingsWindow(); // displays the settings window
+		//MainWindowFrame mwf = new MainWindowFrame(sf, sfm, this, svs,/* dc,*/ ccf);
 		//updates variables
 		this.sfm = sfm;
 		this.mwf = mwf;
 
-		bdp = mwf.getBottomDisplayPanel();
+		//bdp = mwf.getBottomDisplayPanel();
 		//new Stage(svs.getResWidth(),svs.getResHeight(),svs.getFullScreen());
 	}
 
@@ -99,6 +97,7 @@ public class MainMenuFrame implements Screen {
 	 * Creates buttons for the main menu
 	 */
 	private void createButtons (){
+		
 		buttonYPos = Math.round(svs.getResHeight()/2.5f);
 		int x = Gdx.input.getX();
 		int y = Gdx.input.getY();
@@ -111,7 +110,7 @@ public class MainMenuFrame implements Screen {
 			if (x > buttonXPos && x < (buttonXPos + BUTTON_WIDTH) && y < buttonYPos && y > (buttonYPos -  BUTTON_HEIGHT)){
 				textColour = Color.BLUE;
 				
-				mainMenuButtonHover.play();
+				//mainMenuButtonHover.play();
 				
 				buttonHoverSprite.setPosition(buttonXPos, (svs.getResHeight() - buttonYPos));
 				buttonHoverSprite.draw(menuGraphics);
@@ -119,7 +118,7 @@ public class MainMenuFrame implements Screen {
 				if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
 					switch(i){
 					case 1:
-						ccf = new CreateCharacterFrame(this);	
+						//ccf = new CreateCharacterFrame(this);	
 						break;
 					case 2:
 						System.out.println("Load Game");
@@ -178,6 +177,7 @@ public class MainMenuFrame implements Screen {
 
 	public void createButtonText(int xpos, int ypos, String text){
 		//ttf.drawString((xpos + BUTTON_TEXT_CENTER_X), ((svs.getResHeight() - ypos ) + BUTTON_TEXT_CENTER_Y), text, textColour);
+		
 	}
 
 	public void startGameThreads(){
@@ -244,7 +244,6 @@ public class MainMenuFrame implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -254,8 +253,8 @@ public class MainMenuFrame implements Screen {
 		buttonXPos = (int) Math.round(svs.getResWidth()/2.5); // centers buttons on the x axis
 
 
-		buttonHoverTexture = new Texture(Gdx.files.internal("res/images/main_menu/button_base_selected.png"));
-		buttonTexture = new Texture(Gdx.files.internal("res/images/main_menu/button_base.png"));
+		buttonHoverTexture = new Texture(Gdx.files.internal("images/main_menu/button_base_selected.png"));
+		buttonTexture = new Texture(Gdx.files.internal("images/main_menu/button_base.png"));
 
 		buttonBaseSprite = new Sprite(buttonTexture);
 		buttonHoverSprite = new Sprite(buttonHoverTexture);
@@ -263,13 +262,13 @@ public class MainMenuFrame implements Screen {
 		buttonBaseSprite.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 		buttonHoverSprite.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 		//load music
-		mainMenuMusic = Gdx.audio.newMusic(Gdx.files.internal("res/music/Luxian Voyage.ogg"));
+		mainMenuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Luxian Voyage.ogg"));
 
 		mainMenuMusic.setVolume(svs.getMusicVolume());
 		mainMenuMusic.setLooping(true);
 		mainMenuMusic.play();
 		
-		mainMenuButtonHover = Gdx.audio.newSound(Gdx.files.internal("res/sound/main_menu_button_hover.ogg"));
+		mainMenuButtonHover = Gdx.audio.newSound(Gdx.files.internal("sound/main_menu_button_hover.ogg"));
 		mainMenuButtonHover.setVolume(0, svs.getSoundVolume());
 	}
 

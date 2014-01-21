@@ -4,8 +4,7 @@ import gameEntry.BookGame;
 import gameEntry.SettingsFiles;
 import gameEntry.SettingsVariablesStore;
 
-import org.lwjgl.LWJGLException;
-import org.newdawn.slick.Graphics;
+
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -15,7 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class GameIntroState implements Screen{
 
 	private int loading = 0;
-	Graphics loadingGraphics = new Graphics();
+	//Graphics loadingGraphics = new Graphics();
 	SpriteBatch batch = new SpriteBatch();
 	MainMenuFrame mmf;
 	SettingsVariablesStore svs;
@@ -34,7 +33,7 @@ public class GameIntroState implements Screen{
          Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		
-		loadingGraphics.fillRoundRect(Math.round(svs.getResWidth()/10), Math.round(svs.getResHeight()/2), (loading * 3400)/(svs.getResWidth()/4), 40, 5);
+		//loadingGraphics.fillRoundRect(Math.round(svs.getResWidth()/10), Math.round(svs.getResHeight()/2), (loading * 3400)/(svs.getResWidth()/4), 40, 5);
 		if(loading == 100){
 			bookGame.setScreen(new MainMenuFrame(sf, svs, this, bookGame));
 		}
