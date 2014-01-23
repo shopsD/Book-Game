@@ -27,6 +27,9 @@ public class SettingFileParser extends DefaultHandler {
 		}
 	}
 	
+	/**
+	 * Begins parsing the specified file
+	 */
 	public void parseSettings(){
 		 
 	        try {
@@ -72,6 +75,11 @@ public class SettingFileParser extends DefaultHandler {
 	public void characters(char[] ac, int i, int j) throws SAXException{
 		elementValue = new String(ac, i, j);
 	}
+	
+	/**
+	 * Sets the name of the file to be read
+	 * @param fileName The name including path of the file to be read
+	 */
 	public void setFileName(String fileName) {
 		SettingFileParser.fileName = fileName;
 		

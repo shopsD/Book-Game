@@ -109,8 +109,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="13" language="java" name="gameGUI.GameIntroState" project="Game Engine" 
-    file="/Game Engine/src/gameGUI/GameIntroState.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="13" language="java" name="gameGUI.GameIntroScreen" project="Game Engine" 
+    file="/Game Engine/src/gameGUI/GameIntroScreen.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="243" width="296" x="448" y="3473"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      

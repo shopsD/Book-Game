@@ -25,7 +25,7 @@ public class MainMenuScreen implements Screen {
 	private DataController dc;
 	private BottomDisplayPanel bdp;
 	private CreateCharacterScreen ccf;
-	private GameIntroState gis;
+	private GameIntroScreen gis;
 	private SettingsVariablesStore svs;
 	private BookGame bookGame;
 
@@ -84,7 +84,7 @@ public class MainMenuScreen implements Screen {
 
 
 
-	public MainMenuScreen(SettingsFiles sf, SettingsVariablesStore svs, GameIntroState gis, BookGame bookGame){
+	public MainMenuScreen(SettingsFiles sf, SettingsVariablesStore svs, GameIntroScreen gis, BookGame bookGame){
 		//first line of GUI to run
 		this.sf = sf;
 		this.gis = gis;

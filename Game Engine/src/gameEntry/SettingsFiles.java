@@ -110,10 +110,18 @@ public class SettingsFiles {
 		}
 	}
 	
+	/**
+	 * Creates settings file with the following default values:
+	 * Game version
+	 * VSync disabled
+	 * Sound and Music Volume 0.5f
+	 * Sound and Music enabled
+	 * Fullscreen enabled
+	 */
 	public void createSettingsFile(){
 
 		rootElem = doc.createElement("SETTINGS");
-		rootElem.setAttribute("VERSION", "0.7.0.0");
+		rootElem.setAttribute("VERSION", "0.7.0.1");
 		
 		parentElem = doc.createElement("DISPLAY");
 		childElem = doc.createElement("RESOLUTION");
@@ -154,6 +162,13 @@ public class SettingsFiles {
 		}
 	}
 
+	/**
+	 * Writes new data to file as requested
+	 * @param fileName The name of the file including path if necessary
+	 * @param newInputData The new data to be written
+	 * @param oldInputData The old data to be overwritten
+	 * @return
+	 */
 	public boolean writeToFile(String fileName, String newInputData, String oldInputData){
 		//overwrites specific data with new data
 		try {

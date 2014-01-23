@@ -15,20 +15,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-public class GameIntroState implements Screen{
+public class GameIntroScreen implements Screen{
 
 	private static int loading = 0;
 	private static ShapeRenderer shapeRenderer = new ShapeRenderer();
 	private static SpriteBatch batch = new SpriteBatch();
-	private static MainMenuScreen mmf;
+	private static MainMenuScreen mms;
 	private static SettingsVariablesStore svs;
 	private static SettingsFiles sf;
 	private static BookGame bookGame;
 
-	public GameIntroState(SettingsFiles sf, SettingsVariablesStore svs,BookGame bookGame) {
-		GameIntroState.sf = sf;
-		GameIntroState.svs = svs;
-		GameIntroState.bookGame = bookGame;
+	public GameIntroScreen(SettingsFiles sf, SettingsVariablesStore svs,BookGame bookGame) {
+		GameIntroScreen.sf = sf;
+		GameIntroScreen.svs = svs;
+		GameIntroScreen.bookGame = bookGame;
 	}
 
 	@Override
@@ -43,8 +43,8 @@ public class GameIntroState implements Screen{
 		shapeRenderer.end();
 		if(loading == 100){
 			//transition to main menu
-			GameIntroState.mmf = new MainMenuScreen(sf, svs, this, bookGame);
-			bookGame.setScreen(GameIntroState.mmf);
+			GameIntroScreen.mms = new MainMenuScreen(sf, svs, this, bookGame);
+			bookGame.setScreen(GameIntroScreen.mms);
 		}
 		loading++;
 		batch.end();

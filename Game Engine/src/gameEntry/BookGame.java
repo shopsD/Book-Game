@@ -1,6 +1,6 @@
 package gameEntry;
 
-import gameGUI.GameIntroState;
+import gameGUI.GameIntroScreen;
 import gameGUI.MainMenuScreen;
 
 import org.lwjgl.LWJGLException;
@@ -12,14 +12,20 @@ import org.lwjgl.LWJGLException;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-
+////-----Version 0.7.0.1
+	////-----Added feature to fire employees. Currently non-functional.
+	////-----Need to add frames to view past sequels. List built correctly
+	////-----Need to add frame to hire and fire employees.
+	////-----Need to add unlock system
+	////-----Need to rework scoring system
+	////-----Complete addition of opengl
 public class BookGame extends Game{
 
 	//private UnicodeFont ttf;
 	private static float FONT_SIZE = 25f;
 
 	private int loading = 0;
-	private MainMenuScreen mmf;
+
 	private static SettingsVariablesStore svs = new SettingsVariablesStore();
 	private static SettingFileParser sfp = new SettingFileParser(svs);
 	private static SettingsFiles sf = new SettingsFiles(svs, sfp);
@@ -29,6 +35,10 @@ public class BookGame extends Game{
 		return ttf;
 	}*/
 	
+	/**
+	 * Gets the SettingsVariableStore object
+	 * @return SettingsVariablesStore class
+	 */
 	public SettingsVariablesStore getSettingsVariablesStore(){
 		return svs;
 	}
@@ -63,7 +73,7 @@ public class BookGame extends Game{
 		//	e1.printStackTrace();
 		//}
 		loading = 0;
-		GameIntroState gis = new GameIntroState(sf, svs, this);
+		GameIntroScreen gis = new GameIntroScreen(sf, svs, this);
 
 		setScreen(gis);
 	}
