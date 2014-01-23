@@ -24,7 +24,7 @@ public class MainMenuScreen implements Screen {
 	private SettingsFrame sfm;
 	private DataController dc;
 	private BottomDisplayPanel bdp;
-	private CreateCharacterScreen ccf;
+	private CreateCharacterScreen ccs;
 	private GameIntroScreen gis;
 	private SettingsVariablesStore svs;
 	private BookGame bookGame;
@@ -127,8 +127,9 @@ public class MainMenuScreen implements Screen {
 				if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
 					switch(i){
 					case 1:
-						//ccf = new CreateCharacterFrame(this);	
-						bookGame.setScreen(ccf);
+						ccs = new CreateCharacterScreen(this, bookGame, mainMenuButtonHover, mainMenuMusic, buttonHoverSprite, buttonBaseSprite);	
+						mainMenuMusic.pause();
+						bookGame.setScreen(ccs);
 						break;
 					case 2:
 						System.out.println("Load Game");
@@ -197,13 +198,13 @@ public class MainMenuScreen implements Screen {
 
 	public void startGameThreads(){
 		//setting player starting stats
-		dc.setPlayerName(ccf.getPlayerName());
-		dc.setPlayerTechnique(ccf.getPlayerTechnique());
-		dc.setPlayerAptitude(ccf.getPlayerAptitude());
-		dc.setPlayerReasoning(ccf.getPlayerReasoning());
-		dc.setPlayerGrammar(ccf.getPlayerGrammar());
-		dc.setPlayerLevel(ccf.getPlayerLevel());
-		bdp.getPlayerName(ccf.getPlayerName());
+		dc.setPlayerName(ccs.getPlayerName());
+		dc.setPlayerTechnique(ccs.getPlayerTechnique());
+		dc.setPlayerAptitude(ccs.getPlayerAptitude());
+		dc.setPlayerReasoning(ccs.getPlayerReasoning());
+		dc.setPlayerGrammar(ccs.getPlayerGrammar());
+		dc.setPlayerLevel(ccs.getPlayerLevel());
+		bdp.getPlayerName(ccs.getPlayerName());
 		dc.createProductArrays();
 		dc.startPointControlThread();
 		Thread mainWindowFrameThread = new Thread(mwf);

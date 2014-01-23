@@ -1,16 +1,13 @@
 package gameGUI;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JTextArea;
+import gameEntry.BookGame;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class CreateCharacterScreen implements Screen{
 	//player skills
@@ -22,7 +19,7 @@ public class CreateCharacterScreen implements Screen{
 	private int level = 1;
 
 	private int levelSkillPoints = 20;
-	private MainMenuScreen mmf;
+	private MainMenuScreen mms;
 	//private JTextArea nameInput = new JTextArea();//where player name is entered
 	/*private volatile JTextArea techniqueText;
 	private volatile JTextArea aptitudeText;
@@ -45,22 +42,33 @@ public class CreateCharacterScreen implements Screen{
 	private static final int FRAME_WIDTH = 400;
 	private static final int FRAME_HEIGHT = 420;
 	
-	CreateCharacterScreen(MainMenuScreen mainMenuFrame){
-		mmf = mainMenuFrame;
-		createGUI();
+	private BookGame bookGame;
+	private static Sprite buttonBaseSprite;
+	private static Sprite buttonHoverSprite;
+	private static Music mainMenuMusic;
+	private static Sound mainMenuButtonHover;
+
+	CreateCharacterScreen(MainMenuScreen mms, BookGame bookGame, Sound mainMenuButtonHover, Music mainMenuMusic, Sprite buttonHoverSprite, Sprite buttonBaseSprite){
+		this.mms = mms;
+		CreateCharacterScreen.mainMenuButtonHover  = mainMenuButtonHover;
+		CreateCharacterScreen.mainMenuMusic = mainMenuMusic;
+		this.bookGame = bookGame;
+		CreateCharacterScreen.buttonBaseSprite = buttonBaseSprite;
+		CreateCharacterScreen.buttonHoverSprite = buttonHoverSprite;
+		//createGUI();
 	}
 
 
 	private void createGUI(){
-		final JPanel imagePanel = new JPanel();
+	/*	final JPanel imagePanel = new JPanel();
 		JPanel dataPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
 
 		imagePanel.setVisible(true);
 		dataPanel.setVisible(true);
 		buttonPanel.setVisible(true);
-
-		JTextArea instructions = new JTextArea("Type in your Name");
+*/
+		/*JTextArea instructions = new JTextArea("Type in your Name");
 		instructions.setForeground(Color.black);
 		instructions.setBackground(Color.gray);
 		instructions.setEditable(false);
@@ -68,7 +76,7 @@ public class CreateCharacterScreen implements Screen{
 		instructions.setFocusable(false);
 		instructions.setVisible(true);
 		instructions.setPreferredSize(new Dimension (TEXT_AREA_WIDTH, INSTRUCTIONS_TEXT_AREA_HEIGHT));
-
+*/
 		//nameInput.setText("Player");
 		//nameInput.setSize(new Dimension (TEXT_AREA_WIDTH, NAME_INPUT_TEXT_AREA_HEIGHT));
 
@@ -77,11 +85,11 @@ public class CreateCharacterScreen implements Screen{
 
 	//	textScrollPane.setPreferredSize(new Dimension (TEXT_AREA_WIDTH, TEXT_SCROLL_PANE_HEIGHT));
 
-		dataPanel.add(instructions);
+	//	dataPanel.add(instructions);
 	//	dataPanel.add(textScrollPane);
 		//Text Area controls
-		JTextArea remainingPointsArea = new JTextArea(""+levelSkillPoints);
-
+	//	JTextArea remainingPointsArea = new JTextArea(""+levelSkillPoints);
+/*
 		remainingPointsArea.setEditable(false);
 		remainingPointsArea.setFocusable(false);
 		remainingPointsArea.setVisible(true);
@@ -111,11 +119,11 @@ public class CreateCharacterScreen implements Screen{
 		buttonPanel.add(createButtons("Continue")); // adds two buttons
 		buttonPanel.add(createButtons("Cancel"));
 
-
+*/
 
 	}
 
-	private JButton createButtons (final String buttonName){
+	/*private JButton createButtons (final String buttonName){
 		JButton button = new JButton (buttonName); // creates new button with button name
 		button.addActionListener(new ActionListener(){
 
@@ -127,7 +135,7 @@ public class CreateCharacterScreen implements Screen{
 
 		});
 		return button; // returns newly created button
-	}
+	}*/
 
 	private void checkButtonClicked(String buttonName){
 		String bn = buttonName.toLowerCase(); //converts to lower case
@@ -141,7 +149,7 @@ public class CreateCharacterScreen implements Screen{
 			//	mmf.startProgram(); // starts up game loop
 
 
-			mmf.startGameThreads();
+			mms.startGameThreads();
 
 		}
 
@@ -151,7 +159,7 @@ public class CreateCharacterScreen implements Screen{
 		}
 	}	
 
-	private void createScrollBarAndTextArea(final String barName, JPanel panelName){
+	/*private void createScrollBarAndTextArea(final String barName, JPanel panelName){
 		//creating scroll bars with text areas
 		//final JScrollBar scrollBar = new JScrollBar(JScrollBar.HORIZONTAL);
 	//	JTextArea staticTextArea = new JTextArea(barName);
@@ -209,7 +217,7 @@ public class CreateCharacterScreen implements Screen{
 		});
 		panelName.add(staticTextArea);
 		panelName.add(dynamicTextArea);
-		panelName.add(scrollBar);*/
+		panelName.add(scrollBar);
 	}
 
 	private void checkBarAdjusted(String barName, JScrollBar scrollBar) {
@@ -227,8 +235,8 @@ public class CreateCharacterScreen implements Screen{
 		}
 		remainingPointsArea.setText(""+(levelSkillPoints-(Integer.valueOf(techniqueText.getText()) + Integer.valueOf(aptitudeText.getText())
 				+ Integer.valueOf(reasoningText.getText()) + Integer.valueOf(grammarText.getText()))));
-*/
-	}
+
+	}*/
 
 	public String getPlayerName(){
 		return playerName;
@@ -253,11 +261,11 @@ public class CreateCharacterScreen implements Screen{
 	public int getPlayerLevel(){
 		return level;
 	}
-
-
+	
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
+		Gdx.gl.glClearColor(0, 0, 0, 0);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 	}
 
@@ -272,7 +280,7 @@ public class CreateCharacterScreen implements Screen{
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		
+		mainMenuMusic.play();
 	}
 
 
