@@ -46,7 +46,7 @@ public class ManuscriptCompleteFrame extends JFrame{
 	private ManuscriptCreator mc;
 	private Product pdc;
 	private PointControlClass pcc;
-	public ManuscriptCompleteFrame(MainMenuFrame mmf, Product pdc, PointControlClass pcc){
+	public ManuscriptCompleteFrame(MainMenuScreen mmf, Product pdc, PointControlClass pcc){
 		this.pcc = pcc;
 		this.pdc = pdc;
 		this.setSize(320, 240);

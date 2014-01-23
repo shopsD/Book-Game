@@ -19,14 +19,14 @@ public class MainWindowFrame extends JFrame implements Runnable{
 	private BottomDisplayPanel bbp;
 	private MainGamePanel mgp;
 	private SettingsFiles sf;
-	private MainMenuFrame mmf;
+	private MainMenuScreen mmf;
 	private SettingsVariablesStore svs;
 	private DataController dc;
 	private Thread mainGamePanelThread; // game display
 
 	private volatile Dimension mainDimension; // main game window size
 	private volatile boolean mainWindowFrameOpen; // used to determine if main game window is open
-	MainWindowFrame(SettingsFiles sf, SettingsFrame sfm, MainMenuFrame mmf, SettingsVariablesStore svs, /*DataController dc,*/ CreateCharacterFrame ccf){
+	MainWindowFrame(SettingsFiles sf, SettingsFrame sfm, MainMenuScreen mmf, SettingsVariablesStore svs, /*DataController dc,*/ CreateCharacterScreen ccf){
 		mainWindowFrameOpen = false;//window closed on startup
 		DataController dc = new DataController(svs, mmf);
 		mmf.setDataController(dc);

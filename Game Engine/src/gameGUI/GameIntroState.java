@@ -20,7 +20,7 @@ public class GameIntroState implements Screen{
 	private static int loading = 0;
 	private static ShapeRenderer shapeRenderer = new ShapeRenderer();
 	private static SpriteBatch batch = new SpriteBatch();
-	private static MainMenuFrame mmf;
+	private static MainMenuScreen mmf;
 	private static SettingsVariablesStore svs;
 	private static SettingsFiles sf;
 	private static BookGame bookGame;
@@ -43,7 +43,7 @@ public class GameIntroState implements Screen{
 		shapeRenderer.end();
 		if(loading == 100){
 			//transition to main menu
-			GameIntroState.mmf = new MainMenuFrame(sf, svs, this, bookGame);
+			GameIntroState.mmf = new MainMenuScreen(sf, svs, this, bookGame);
 			bookGame.setScreen(GameIntroState.mmf);
 		}
 		loading++;

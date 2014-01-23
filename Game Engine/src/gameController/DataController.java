@@ -2,7 +2,7 @@ package gameController;
 
 import gameEntry.SettingsVariablesStore;
 import gameGUI.MainGamePanel;
-import gameGUI.MainMenuFrame;
+import gameGUI.MainMenuScreen;
 import gameGUI.ManuscriptCompleteFrame;
 import gameGUI.NewProductionFrame;
 import gameGUI.UpperDisplayPanel;
@@ -14,7 +14,7 @@ public class DataController implements Runnable{
 	
 
 	private ManuscriptCreator mc;
-	private MainMenuFrame mmf;
+	private MainMenuScreen mmf;
 	private PointControlClass pcc;
 	private UpperDisplayPanel udp;
 	private Product product;
@@ -39,7 +39,7 @@ public class DataController implements Runnable{
 	
 	private static final int THREAD_SLEEP_TIME = 100;
 	
-	public DataController(SettingsVariablesStore svs, MainMenuFrame mainMenuFrame) {
+	public DataController(SettingsVariablesStore svs, MainMenuScreen mainMenuFrame) {
 		//instantiated by MainMenuFrame
 		mmf = mainMenuFrame;
 		PointControlClass pcc = new PointControlClass(this, mmf);

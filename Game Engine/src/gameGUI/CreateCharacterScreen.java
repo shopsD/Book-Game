@@ -1,39 +1,18 @@
 package gameGUI;
 
-import gameGraphicsAndSound.CharacterCreationGraphics;
-
-import java.awt.BorderLayout;
-
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.lwjgl.LWJGLException;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.BasicGameState;
-import org.newdawn.slick.state.StateBasedGame;
+import com.badlogic.gdx.Screen;
 
-public class CreateCharacterFrame extends BasicGameState{
+public class CreateCharacterScreen implements Screen{
 	//player skills
 	private String playerName;
 	private int technique = 5;
@@ -43,16 +22,14 @@ public class CreateCharacterFrame extends BasicGameState{
 	private int level = 1;
 
 	private int levelSkillPoints = 20;
-	private MainMenuFrame mmf;
-	private JTextArea nameInput = new JTextArea();//where player name is entered
-	private volatile JTextArea techniqueText;
+	private MainMenuScreen mmf;
+	//private JTextArea nameInput = new JTextArea();//where player name is entered
+	/*private volatile JTextArea techniqueText;
 	private volatile JTextArea aptitudeText;
 	private volatile JTextArea reasoningText;
 	private volatile JTextArea grammarText;
-	private volatile JTextArea remainingPointsArea;
+	private volatile JTextArea remainingPointsArea;*/
 
-
-	private CharacterCreationGraphics ccg;
 
 	private static final int IMAGE_PANEL_WIDTH = 260;
 	private static final int IMAGE_PANEL_HEIGHT = 340;
@@ -67,14 +44,9 @@ public class CreateCharacterFrame extends BasicGameState{
 	private static final int GRID_COLUMNS = 2;
 	private static final int FRAME_WIDTH = 400;
 	private static final int FRAME_HEIGHT = 420;
-	CreateCharacterFrame(MainMenuFrame mainMenuFrame){
+	
+	CreateCharacterScreen(MainMenuScreen mainMenuFrame){
 		mmf = mainMenuFrame;
-		try {
-			ccg = new CharacterCreationGraphics(this);
-		} catch (LWJGLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		createGUI();
 	}
 
@@ -97,23 +69,23 @@ public class CreateCharacterFrame extends BasicGameState{
 		instructions.setVisible(true);
 		instructions.setPreferredSize(new Dimension (TEXT_AREA_WIDTH, INSTRUCTIONS_TEXT_AREA_HEIGHT));
 
-		nameInput.setText("Player");
-		nameInput.setSize(new Dimension (TEXT_AREA_WIDTH, NAME_INPUT_TEXT_AREA_HEIGHT));
+		//nameInput.setText("Player");
+		//nameInput.setSize(new Dimension (TEXT_AREA_WIDTH, NAME_INPUT_TEXT_AREA_HEIGHT));
 
-		JScrollPane textScrollPane = new JScrollPane(nameInput, JScrollPane.VERTICAL_SCROLLBAR_NEVER, 
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		//JScrollPane textScrollPane = new JScrollPane(nameInput, JScrollPane.VERTICAL_SCROLLBAR_NEVER, 
+				//JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-		textScrollPane.setPreferredSize(new Dimension (TEXT_AREA_WIDTH, TEXT_SCROLL_PANE_HEIGHT));
+	//	textScrollPane.setPreferredSize(new Dimension (TEXT_AREA_WIDTH, TEXT_SCROLL_PANE_HEIGHT));
 
 		dataPanel.add(instructions);
-		dataPanel.add(textScrollPane);
+	//	dataPanel.add(textScrollPane);
 		//Text Area controls
 		JTextArea remainingPointsArea = new JTextArea(""+levelSkillPoints);
 
 		remainingPointsArea.setEditable(false);
 		remainingPointsArea.setFocusable(false);
 		remainingPointsArea.setVisible(true);
-		this.remainingPointsArea = remainingPointsArea;
+	//	this.remainingPointsArea = remainingPointsArea;
 		//Text Area controls
 		JTextArea remainingPointsText = new JTextArea("Remaining Skill Points");
 		remainingPointsText.setForeground(Color.black);
@@ -131,8 +103,8 @@ public class CreateCharacterFrame extends BasicGameState{
 		createScrollBarAndTextArea("Reasoning", dataPanel);
 		createScrollBarAndTextArea("Grammar", dataPanel);
 		//sets correct number of remaining skill points
-		remainingPointsArea.setText(""+(levelSkillPoints-(Integer.valueOf(techniqueText.getText()) + Integer.valueOf(aptitudeText.getText())
-				+ Integer.valueOf(reasoningText.getText()) + Integer.valueOf(grammarText.getText()))));
+		//remainingPointsArea.setText(""+(levelSkillPoints-(Integer.valueOf(techniqueText.getText()) + Integer.valueOf(aptitudeText.getText())
+	//			+ Integer.valueOf(reasoningText.getText()) + Integer.valueOf(grammarText.getText()))));
 
 		dataPanel.setLayout(new GridLayout(GRID_ROWS,GRID_COLUMNS));
 
@@ -161,11 +133,11 @@ public class CreateCharacterFrame extends BasicGameState{
 		String bn = buttonName.toLowerCase(); //converts to lower case
 		if (bn.equals("continue")){
 			
-			playerName = nameInput.getText(); // gets player name
-			technique = Integer.valueOf(techniqueText.getText());
+			//playerName = nameInput.getText(); // gets player name
+		/*	technique = Integer.valueOf(techniqueText.getText());
 			aptitude = Integer.valueOf(aptitudeText.getText());
 			reasoning = Integer.valueOf(reasoningText.getText());
-			grammar = Integer.valueOf(grammarText.getText());
+			grammar = Integer.valueOf(grammarText.getText());*/
 			//	mmf.startProgram(); // starts up game loop
 
 
@@ -181,26 +153,26 @@ public class CreateCharacterFrame extends BasicGameState{
 
 	private void createScrollBarAndTextArea(final String barName, JPanel panelName){
 		//creating scroll bars with text areas
-		final JScrollBar scrollBar = new JScrollBar(JScrollBar.HORIZONTAL);
-		JTextArea staticTextArea = new JTextArea(barName);
-		scrollBar.setValue((Integer.valueOf(remainingPointsArea.getText()))/4);
-		final JTextArea dynamicTextArea = new JTextArea(""+scrollBar.getValue());//sets default value to scrollbar
+		//final JScrollBar scrollBar = new JScrollBar(JScrollBar.HORIZONTAL);
+	//	JTextArea staticTextArea = new JTextArea(barName);
+		//scrollBar.setValue((Integer.valueOf(remainingPointsArea.getText()))/4);
+		//final JTextArea dynamicTextArea = new JTextArea(""+scrollBar.getValue());//sets default value to scrollbar
 
 		//assign main textareas correctly
 		if(barName.equalsIgnoreCase("technique")){
-			techniqueText = dynamicTextArea;
+		//	techniqueText = dynamicTextArea;
 		}
 		else if (barName.equalsIgnoreCase("aptitude")){
-			aptitudeText = dynamicTextArea;
+		//	aptitudeText = dynamicTextArea;
 		}
 		else if(barName.equalsIgnoreCase("reasoning")){
-			reasoningText = dynamicTextArea;
+		//	reasoningText = dynamicTextArea;
 		}
 		else if(barName.equalsIgnoreCase("grammar")){
-			grammarText = dynamicTextArea;
+		//	grammarText = dynamicTextArea;
 		}
 		//set text area properties
-		dynamicTextArea.setEditable(false);
+		/*dynamicTextArea.setEditable(false);
 		dynamicTextArea.setFocusable(false);
 		dynamicTextArea.setVisible(true);
 
@@ -237,11 +209,11 @@ public class CreateCharacterFrame extends BasicGameState{
 		});
 		panelName.add(staticTextArea);
 		panelName.add(dynamicTextArea);
-		panelName.add(scrollBar);
+		panelName.add(scrollBar);*/
 	}
 
 	private void checkBarAdjusted(String barName, JScrollBar scrollBar) {
-		if (barName.equalsIgnoreCase("technique")){
+	/*	if (barName.equalsIgnoreCase("technique")){
 			techniqueText.setText(""+scrollBar.getValue());
 		}
 		else if(barName.equalsIgnoreCase("aptitude")){
@@ -255,7 +227,7 @@ public class CreateCharacterFrame extends BasicGameState{
 		}
 		remainingPointsArea.setText(""+(levelSkillPoints-(Integer.valueOf(techniqueText.getText()) + Integer.valueOf(aptitudeText.getText())
 				+ Integer.valueOf(reasoningText.getText()) + Integer.valueOf(grammarText.getText()))));
-
+*/
 	}
 
 	public String getPlayerName(){
@@ -284,29 +256,50 @@ public class CreateCharacterFrame extends BasicGameState{
 
 
 	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1)throws SlickException {
-		
-		
-	}
-
-
-	@Override
-	public void render(GameContainer gContainer, StateBasedGame arg1, Graphics arg2)throws SlickException {
-		//button_image.draw(buttonXPos,(gContainer.getHeight() - buttonYPos), BUTTON_WIDTH, BUTTON_HEIGHT);
-		
-	}
-
-
-	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)throws SlickException {
+	public void render(float delta) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public int getID() {
+	public void resize(int width, int height) {
+		// TODO Auto-generated method stub
+		
+	}
 
-		return 2;
+
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
 	}
 }

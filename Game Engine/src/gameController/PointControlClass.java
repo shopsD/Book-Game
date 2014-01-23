@@ -3,7 +3,7 @@ package gameController;
 import java.util.Random;
 
 import gameGUI.MainGamePanel;
-import gameGUI.MainMenuFrame;
+import gameGUI.MainMenuScreen;
 
 public class PointControlClass implements Runnable{
 	//class adds variables which are then added to the book and saved;
@@ -21,12 +21,12 @@ public class PointControlClass implements Runnable{
 
 	private Thread percComplete = new Thread();
 	private DataController dc;
-	private MainMenuFrame mmf;
+	private MainMenuScreen mmf;
 	private MainGamePanel mgp;
 
 	private static final int THREAD_SLEEP_TIME_PAUSE = 100;
 	
-	public PointControlClass(DataController dataController, MainMenuFrame mmf) {
+	public PointControlClass(DataController dataController, MainMenuScreen mmf) {
 		dc = dataController;
 		this.mmf = mmf;
 	}

@@ -1,6 +1,6 @@
 package gameController;
 
-import gameGUI.MainMenuFrame;
+import gameGUI.MainMenuScreen;
 
 public class ManuscriptCreator {
 	//this class serves as individual manuscripts
@@ -41,7 +41,7 @@ public class ManuscriptCreator {
 	
 	private Thread postReleaseThread;
 	private PostReleaseController prc;
-	public ManuscriptCreator(String name, String type, String genre, String genreTwo, String audience, String fictionType, String topic, String topicTwo, String topicThree, String prequelName, String purpose, ManuscriptCreator prequel, MainMenuFrame mmf, DataController dc){
+	public ManuscriptCreator(String name, String type, String genre, String genreTwo, String audience, String fictionType, String topic, String topicTwo, String topicThree, String prequelName, String purpose, ManuscriptCreator prequel, MainMenuScreen mmf, DataController dc){
 		this.name = name;
 		this.type = type;
 		this.genre = genre;

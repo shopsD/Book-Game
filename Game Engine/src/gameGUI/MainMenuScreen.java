@@ -17,14 +17,14 @@ import gameEntry.BookGame;
 import gameEntry.SettingsFiles;
 import gameEntry.SettingsVariablesStore;
 
-public class MainMenuFrame implements Screen {
+public class MainMenuScreen implements Screen {
 
 	private SettingsFiles sf;
 	private MainWindowFrame mwf;
 	private SettingsFrame sfm;
 	private DataController dc;
 	private BottomDisplayPanel bdp;
-	private CreateCharacterFrame ccf;
+	private CreateCharacterScreen ccf;
 	private GameIntroState gis;
 	private SettingsVariablesStore svs;
 	private BookGame bookGame;
@@ -84,7 +84,7 @@ public class MainMenuFrame implements Screen {
 
 
 
-	public MainMenuFrame(SettingsFiles sf, SettingsVariablesStore svs, GameIntroState gis, BookGame bookGame){
+	public MainMenuScreen(SettingsFiles sf, SettingsVariablesStore svs, GameIntroState gis, BookGame bookGame){
 		//first line of GUI to run
 		this.sf = sf;
 		this.gis = gis;
@@ -128,6 +128,7 @@ public class MainMenuFrame implements Screen {
 					switch(i){
 					case 1:
 						//ccf = new CreateCharacterFrame(this);	
+						bookGame.setScreen(ccf);
 						break;
 					case 2:
 						System.out.println("Load Game");

@@ -17,7 +17,7 @@ import gameController.Product;
 public class MainGamePanel extends JPanel implements Runnable{
 	// instantiated by MainWindowFrame
 	private DataController dc;
-	private MainMenuFrame mmf;
+	private MainMenuScreen mmf;
 	private UpperDisplayPanel udp;
 	private NewProductionFrame npf;
 	private Product pdc;
@@ -35,7 +35,7 @@ public class MainGamePanel extends JPanel implements Runnable{
 	private JMenuItem train;
 	
 	private static final int THREAD_SLEEP_TIME_PAUSE = 100;
-	public MainGamePanel(DataController dc, MainMenuFrame mmf, UpperDisplayPanel udp) {
+	public MainGamePanel(DataController dc, MainMenuScreen mmf, UpperDisplayPanel udp) {
 		this.dc = dc;
 		this.mmf = mmf;
 		this.udp = udp;
@@ -174,7 +174,7 @@ public class MainGamePanel extends JPanel implements Runnable{
 		convertWork.setVisible(show);
 	}
 	
-	public MainMenuFrame getMainMenuFrame(){
+	public MainMenuScreen getMainMenuFrame(){
 		return mmf;
 	}
 		

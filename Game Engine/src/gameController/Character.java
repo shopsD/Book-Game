@@ -2,7 +2,7 @@ package gameController;
 
 import java.util.Random;
 
-import gameGUI.MainMenuFrame;
+import gameGUI.MainMenuScreen;
 
 public class Character implements Runnable{
 	private String characterName;
@@ -29,14 +29,14 @@ public class Character implements Runnable{
 
 	private DataController dc;
 	private PointControlClass pcc;
-	private MainMenuFrame mmf;
+	private MainMenuScreen mmf;
 	private ManuscriptCreator mc;
 
 	private Random randomOption = new Random();
 
 	private Thread characterThread;
 	
-	Character(String characterName, int technique, int aptitude, int reasoning, int grammar, int level, PointControlClass pcc, MainMenuFrame mmf, DataController dataController){
+	Character(String characterName, int technique, int aptitude, int reasoning, int grammar, int level, PointControlClass pcc, MainMenuScreen mmf, DataController dataController){
 		this.characterName = characterName;
 		this.technique = technique;
 		this.aptitude = aptitude;

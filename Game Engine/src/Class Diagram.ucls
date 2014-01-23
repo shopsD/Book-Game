@@ -19,8 +19,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="gameGUI.CreateCharacterFrame" project="Game Engine" 
-    file="/Game Engine/src/gameGUI/CreateCharacterFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="3" language="java" name="gameGUI.CreateCharacterScreen" project="Game Engine" 
+    file="/Game Engine/src/gameGUI/CreateCharacterScreen.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="783" width="296" x="91" y="3473"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -118,8 +118,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="gameGUI.MainMenuFrame" project="Game Engine" 
-    file="/Game Engine/src/gameGUI/MainMenuFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="14" language="java" name="gameGUI.MainMenuScreen" project="Game Engine" 
+    file="/Game Engine/src/gameGUI/MainMenuScreen.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="657" width="363" x="381" y="2776"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      

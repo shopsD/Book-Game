@@ -1,7 +1,7 @@
 package gameEntry;
 
 import gameGUI.GameIntroState;
-import gameGUI.MainMenuFrame;
+import gameGUI.MainMenuScreen;
 
 import org.lwjgl.LWJGLException;
 
@@ -19,7 +19,7 @@ public class BookGame extends Game{
 	private static float FONT_SIZE = 25f;
 
 	private int loading = 0;
-	private MainMenuFrame mmf;
+	private MainMenuScreen mmf;
 	private static SettingsVariablesStore svs = new SettingsVariablesStore();
 	private static SettingFileParser sfp = new SettingFileParser(svs);
 	private static SettingsFiles sf = new SettingsFiles(svs, sfp);

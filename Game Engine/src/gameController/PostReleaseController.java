@@ -2,12 +2,12 @@ package gameController;
 
 import java.util.Random;
 
-import gameGUI.MainMenuFrame;
+import gameGUI.MainMenuScreen;
 
 public class PostReleaseController implements Runnable{
 	//Instantiated by ManuscriptCreator
 	//used to control sales 
-	private MainMenuFrame mmf;
+	private MainMenuScreen mmf;
 	private ManuscriptCreator mc;
 	private DataController dc;
 
@@ -42,7 +42,7 @@ public class PostReleaseController implements Runnable{
 	private static final int SCORE_THREAD_SLEEP_TIME = 1000;
 	private static final int MIN_POINT_SCORE = 4;
 
-	public PostReleaseController(MainMenuFrame mmf, ManuscriptCreator mc, DataController dc) {
+	public PostReleaseController(MainMenuScreen mmf, ManuscriptCreator mc, DataController dc) {
 		this.mc = mc;
 		this.mmf = mmf;
 		this.dc = dc;

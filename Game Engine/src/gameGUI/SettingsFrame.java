@@ -26,8 +26,8 @@ public class SettingsFrame extends BasicTWLGameState{
 	private int width;
 	private boolean changed = false;
 	private volatile boolean inGameWindow = false;
-	MainMenuFrame mmf;
-	public SettingsFrame(SettingsFiles sf, final SettingsVariablesStore svs, MainMenuFrame mmf) {
+	MainMenuScreen mmf;
+	public SettingsFrame(SettingsFiles sf, final SettingsVariablesStore svs, MainMenuScreen mmf) {
 		this.svs = svs;
 		this.sf = sf;
 		this.mmf = mmf;

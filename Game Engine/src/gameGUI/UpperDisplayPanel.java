@@ -22,14 +22,14 @@ public class UpperDisplayPanel extends JPanel{
 	private JMenuBar mainMenuBar = new JMenuBar();
 	private JTextPane manuscriptName = new JTextPane();
 	
-	private MainMenuFrame mmf;
+	private MainMenuScreen mmf;
 	private SettingsFiles sf;
 	private	SettingsFrame sfm ;
 	private DataController dc;
 	private MainWindowFrame mwf;
 	private ManuscriptCreator mc;
 	/////////////////////
-	UpperDisplayPanel(SettingsFiles sf, SettingsFrame sfm, MainWindowFrame mwf, DataController dc, MainMenuFrame mmf){
+	UpperDisplayPanel(SettingsFiles sf, SettingsFrame sfm, MainWindowFrame mwf, DataController dc, MainMenuScreen mmf){
 		this.sf = sf;
 		this.sfm = sfm;
 		this.dc = dc;
